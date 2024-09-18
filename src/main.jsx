@@ -10,35 +10,42 @@ import Inventory from "./pages/dashboard/inventory";
 import Reports from "./pages/dashboard/reports";
 import Finance from "./pages/dashboard/finance";
 import Layout from "./pages/dashboard/layout";
+import AuthProvider from "./components/auth-provider";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Layout />,
+    path: "/dashboard",
+    element: <AuthProvider />,
     children: [
       {
-        path: "dashboard",
-        element: <Dashboard />,
-      },
-      {
-        path: "dashboard/users",
-        element: <Users />,
-      },
-      {
-        path: "dashboard/bookings",
-        element: <Bookings />,
-      },
-      {
-        path: "dashboard/inventory",
-        element: <Inventory />,
-      },
-      {
-        path: "dashboard/reports",
-        element: <Reports />,
-      },
-      {
-        path: "dashboard/finance",
-        element: <Finance />,
+        path: "",
+        element: <Layout />,
+        children: [
+          {
+            path: "",
+            element: <Dashboard />,
+          },
+          {
+            path: "users",
+            element: <Users />,
+          },
+          {
+            path: "bookings",
+            element: <Bookings />,
+          },
+          {
+            path: "inventory",
+            element: <Inventory />,
+          },
+          {
+            path: "reports",
+            element: <Reports />,
+          },
+          {
+            path: "finance",
+            element: <Finance />,
+          },
+        ],
       },
     ],
   },
