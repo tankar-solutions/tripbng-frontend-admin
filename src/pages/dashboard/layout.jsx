@@ -7,9 +7,7 @@ export default function Layout() {
       <Sidebar />
       <main className="flex-1 overflow-auto">
         <div className="p-4 sm:ml-44">
-          <div className="p-4 rounded-lg">
-            <Outlet />
-          </div>
+          <Outlet />
         </div>
       </main>
     </div>
