@@ -1,4 +1,4 @@
-import { Button } from "../../components/ui/button";
+import { Button } from "../../../components/ui/button";
 import {
   BellDot,
   ChevronDown,
@@ -14,57 +14,67 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../components/ui/table";
-import { CalendarIcon, Filter } from "../../components/icons";
+} from "../../../components/ui/table";
+import { CalendarIcon, Filter } from "../../../components/icons";
 
-const flights = [
+const userPayments = [
   {
-    flightNo: "AA123",
+    name: "John Doe",
+    bookingCode: "BK001",
     airline: "American Airlines",
     route: "JFK - LAX",
-    totalSeats: 150,
-    bookedSeats: 2, // based on your bookings data
-    status: "Available",
+    billingDate: "2024-09-20",
+    amount: "$350",
+    status: "Paid",
+    action: "View Details",
   },
   {
-    flightNo: "UA456",
+    name: "Jane Smith",
+    bookingCode: "BK002",
     airline: "United Airlines",
     route: "ORD - SFO",
-    totalSeats: 200,
-    bookedSeats: 1,
-    status: "Available",
+    billingDate: "2024-09-21",
+    amount: "$420",
+    status: "Pending",
+    action: "Pay Now",
   },
   {
-    flightNo: "DL789",
+    name: "Robert Johnson",
+    bookingCode: "BK003",
     airline: "Delta Airlines",
     route: "ATL - SEA",
-    totalSeats: 180,
-    bookedSeats: 3,
+    billingDate: "2024-09-22",
+    amount: "$300",
     status: "Cancelled",
+    action: "N/A",
   },
   {
-    flightNo: "SW987",
+    name: "Emily Davis",
+    bookingCode: "BK004",
     airline: "Southwest Airlines",
     route: "HOU - DEN",
-    totalSeats: 120,
-    bookedSeats: 4,
-    status: "Available",
+    billingDate: "2024-09-23",
+    amount: "$280",
+    status: "Paid",
+    action: "View Details",
   },
   {
-    flightNo: "BA456",
+    name: "Michael Brown",
+    bookingCode: "BK005",
     airline: "British Airways",
     route: "LHR - JFK",
-    totalSeats: 220,
-    bookedSeats: 2,
-    status: "Available",
+    billingDate: "2024-09-24",
+    amount: "$500",
+    status: "Paid",
+    action: "View Details",
   },
 ];
 
-export default function Inventory() {
+export default function PaymentsDetails() {
   return (
     <section className="flex flex-col gap-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-lg font-semibold">Inventory</h1>
+        <h1 className="text-lg font-semibold">Payments</h1>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-3 bg-white rounded-xl p-2 text-neutral-400 text-sm">
             <Search className="font-thin" size={15} />
@@ -72,7 +82,7 @@ export default function Inventory() {
               type="search"
               name=""
               id=""
-              placeholder="Search anything"
+              placeholder="Search users or bookings"
               className="outline-none bg-transparent"
             />
           </div>
@@ -119,44 +129,48 @@ export default function Inventory() {
           </button>
           <Button className="flex items-center gap-3">
             <Plus size={15} />
-            Add Inventory
+            Add Users
           </Button>
         </div>
       </div>
-      <div className="bg-white rounded-xl">
+      <div className=" bg-white rounded-xl">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Flight No</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Booking Code</TableHead>
               <TableHead>Airline</TableHead>
               <TableHead>Route</TableHead>
-              <TableHead>Total Seats</TableHead>
-              <TableHead>Booked Seats</TableHead>
-              <TableHead>Available Seats</TableHead>
+              <TableHead>Billing Date</TableHead>
+              <TableHead>Amount</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {flights.map((flight) => (
-              <TableRow key={flight.flightNo} className="text-sm">
-                <TableCell>{flight.flightNo}</TableCell>
-                <TableCell>{flight.airline}</TableCell>
-                <TableCell>{flight.route}</TableCell>
-                <TableCell>{flight.totalSeats}</TableCell>
-                <TableCell>{flight.bookedSeats}</TableCell>
-                <TableCell>{flight.totalSeats - flight.bookedSeats}</TableCell>
+            {userPayments.map((payment) => (
+              <TableRow key={payment.bookingCode}>
+                <TableCell>{payment.name}</TableCell>
+                <TableCell>{payment.bookingCode}</TableCell>
+                <TableCell>{payment.airline}</TableCell>
+                <TableCell>{payment.route}</TableCell>
+                <TableCell>{payment.billingDate}</TableCell>
+                <TableCell>{payment.amount}</TableCell>
                 <TableCell>
                   <p
                     className={`w-fit p-1 text-xs rounded-md ${
-                      flight.status === "Available"
+                      payment.status === "Paid"
                         ? "bg-green-200 text-green-800"
-                        : flight.status === "Cancelled"
-                        ? "bg-red-200 text-red-800"
-                        : "bg-yellow-200 text-yellow-800"
+                        : payment.status === "Pending"
+                        ? "bg-yellow-200 text-yellow-800"
+                        : "bg-red-200 text-red-800"
                     }`}
                   >
-                    {flight.status}
+                    {payment.status}
                   </p>
+                </TableCell>
+                <TableCell>
+                  <Button>{payment.action}</Button>
                 </TableCell>
               </TableRow>
             ))}

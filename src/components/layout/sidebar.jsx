@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { NAV_ITEMS } from "../../constants/sitedata";
+import { Logo } from "../icons";
 
 export default function Sidebar() {
   const { pathname } = useLocation();
@@ -16,7 +17,7 @@ export default function Sidebar() {
             to={"/login"}
             className="flex items-center ps-2.5 mb-5 justify-center w-full"
           >
-            <img src="./logo.png" className="w-full" alt="Logo" />
+            <Logo />
           </Link>
           <ul className="space-y-2">
             {NAV_ITEMS.map((el) => {

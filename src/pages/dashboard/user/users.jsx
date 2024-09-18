@@ -1,4 +1,4 @@
-import { Button } from "../../components/ui/button";
+import { Button } from "../../../components/ui/button";
 import {
   BellDot,
   ChevronDown,
@@ -14,8 +14,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../components/ui/table";
-import { Calendar, Filter } from "../../components/icons";
+} from "../../../components/ui/table";
+import { CalendarIcon, Filter } from "../../../components/icons";
+import { Link } from "react-router-dom";
 
 const usersWithBookings = [
   {
@@ -158,7 +159,7 @@ export default function Users() {
             <ChevronDown size={14} />
           </button>
           <button className="flex items-center gap-1 text-neutral-400">
-            <Calendar />
+            <CalendarIcon />
             <span className="text-sm">1-8 July 2024</span>
             <ChevronDown size={14} />
           </button>
@@ -189,12 +190,17 @@ export default function Users() {
             {usersWithBookings.map((user) => (
               <TableRow key={user.userId} className="text-sm">
                 <TableCell className="flex items-center gap-3">
-                  <img
-                    src={user.avatar}
-                    alt={`${user.userName}'s Avatar`}
-                    className="w-10 h-10 rounded-full"
-                  />
-                  {user.userName}
+                  <Link
+                    to={`${user.userId}`}
+                    className="flex items-center gap-4"
+                  >
+                    <img
+                      src={user.avatar}
+                      alt={`${user.userName}'s Avatar`}
+                      className="w-10 h-10 rounded-full"
+                    />
+                    {user.userName}
+                  </Link>
                 </TableCell>
                 <TableCell>
                   <p

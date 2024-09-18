@@ -7,80 +7,53 @@ import {
   Search,
   Settings,
 } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../../components/ui/table";
-import { Calendar, Filter } from "../../components/icons";
 
-const bookings = [
+import { CalendarIcon, Filter } from "../../components/icons";
+import { useState } from "react";
+import {
+  BusTable,
+  FlightTable,
+  HolidaysTable,
+  HotelTable,
+  VisaTable,
+  YatchTable,
+} from "../../components/bookings";
+
+const BookingsItem = [
   {
-    booking: "BK001",
-    customerName: "John Doe",
-    flightNo: "AA123",
-    airline: "American Airlines",
-    route: "JFK - LAX",
-    departure: "10:00 AM",
-    arrival: "1:00 PM",
-    date: "2024-09-20",
-    totalPassengers: 2,
-    status: "Confirmed",
+    label: "Flight",
+    component: <FlightTable />,
   },
   {
-    booking: "BK002",
-    customerName: "Jane Smith",
-    flightNo: "UA456",
-    airline: "United Airlines",
-    route: "ORD - SFO",
-    departure: "11:30 AM",
-    arrival: "2:45 PM",
-    date: "2024-09-21",
-    totalPassengers: 1,
-    status: "Pending",
+    label: "Hotel",
+    component: <HotelTable />,
   },
   {
-    booking: "BK003",
-    customerName: "Robert Johnson",
-    flightNo: "DL789",
-    airline: "Delta Airlines",
-    route: "ATL - SEA",
-    departure: "9:00 AM",
-    arrival: "12:30 PM",
-    date: "2024-09-22",
-    totalPassengers: 3,
-    status: "Cancelled",
+    label: "Bus",
+    component: <BusTable />,
   },
   {
-    booking: "BK004",
-    customerName: "Emily Davis",
-    flightNo: "SW987",
-    airline: "Southwest Airlines",
-    route: "HOU - DEN",
-    departure: "8:15 AM",
-    arrival: "10:45 AM",
-    date: "2024-09-23",
-    totalPassengers: 4,
-    status: "Confirmed",
+    label: "Holidays",
+    component: <HolidaysTable />,
   },
   {
-    booking: "BK005",
-    customerName: "Michael Brown",
-    flightNo: "BA456",
-    airline: "British Airways",
-    route: "LHR - JFK",
-    departure: "7:00 AM",
-    arrival: "10:30 AM",
-    date: "2024-09-24",
-    totalPassengers: 2,
-    status: "Confirmed",
+    label: "Visa",
+    component: <VisaTable />,
+  },
+  {
+    label: "Yatch",
+    component: <YatchTable />,
   },
 ];
 
 export default function Bookings() {
+  const [activeBooking, setActiveBooking] = useState("Flight");
+
+  // Find the active component
+  const activeComponent = BookingsItem.find(
+    (el) => el.label === activeBooking
+  )?.component;
+
   return (
     <section className="flex flex-col gap-6">
       <div className="flex justify-between items-center">
@@ -115,6 +88,26 @@ export default function Bookings() {
           </div>
         </div>
       </div>
+      <div className="flex items-center gap-10 text-sm">
+        {BookingsItem.map((el) => (
+          <button
+            key={el.label} // Use the label as the key
+            onClick={() => setActiveBooking(el.label)}
+            className={`flex flex-col gap-4 ${
+              activeBooking === el.label ? "text-blue-700 " : "text-gray-500"
+            }`}
+          >
+            {el.label}
+            <div
+              className={`${
+                activeBooking === el.label
+                  ? "bg-blue-700 w-full h-[1px] rounded-full"
+                  : ""
+              }`}
+            />
+          </button>
+        ))}
+      </div>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3 bg-white rounded-xl p-2 text-neutral-400 text-sm">
           <Search className="font-thin" size={15} />
@@ -133,7 +126,7 @@ export default function Bookings() {
             <ChevronDown size={14} />
           </button>
           <button className="flex items-center gap-1 text-neutral-400">
-            <Calendar />
+            <CalendarIcon />
             <span className="text-sm">1-8 July 2024</span>
             <ChevronDown size={14} />
           </button>
@@ -143,52 +136,7 @@ export default function Bookings() {
           </Button>
         </div>
       </div>
-      <div className=" bg-white rounded-xl">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Book ID</TableHead>
-              <TableHead>Customer Name</TableHead>
-              <TableHead>Flight No</TableHead>
-              <TableHead>Airline</TableHead>
-              <TableHead>Route</TableHead>
-              <TableHead>Departure</TableHead>
-              <TableHead>Arrival</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Total Passengers</TableHead>
-              <TableHead>Status</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {bookings.map((booking) => (
-              <TableRow key={booking.booking} className="text-sm">
-                <TableCell className="font-normal">{booking.booking}</TableCell>
-                <TableCell>{booking.customerName}</TableCell>
-                <TableCell>{booking.flightNo}</TableCell>
-                <TableCell>{booking.airline}</TableCell>
-                <TableCell>{booking.route}</TableCell>
-                <TableCell>{booking.departure}</TableCell>
-                <TableCell>{booking.arrival}</TableCell>
-                <TableCell>{booking.date}</TableCell>
-                <TableCell>{booking.totalPassengers}</TableCell>
-                <TableCell>
-                  <p
-                    className={`w-fit p-1 text-xs rounded-md ${
-                      booking.status === "Confirmed"
-                        ? "bg-green-200 text-green-800"
-                        : booking.status === "Pending"
-                        ? "bg-yellow-200 text-yellow-800"
-                        : "bg-red-200 text-red-800"
-                    }`}
-                  >
-                    {booking.status}
-                  </p>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      <div className="bg-white rounded-xl p-4">{activeComponent}</div>
     </section>
   );
 }
