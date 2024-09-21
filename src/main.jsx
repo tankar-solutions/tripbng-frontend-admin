@@ -2,18 +2,32 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Signup from "./pages/auth/signup.jsx";
 import Dashboard from "./pages/dashboard/dashboard.jsx";
-import Bookings from "./pages/dashboard/bookings";
-import Inventory from "./pages/dashboard/inventory";
-import Reports from "./pages/dashboard/reports";
-import Finance from "./pages/dashboard/finance";
+
 import Layout from "./pages/dashboard/layout";
 import AuthProvider from "./components/auth-provider";
-import Payments from "./pages/dashboard/payment/payments";
-import PaymentDetails from "./pages/dashboard/payment/payment-details";
-import UserDetails from "./pages/dashboard/user/user-details";
-import Users from "./pages/dashboard/user/users";
+
+import Login from "./pages/auth/login";
+import Customers from "./pages/dashboard/user-management/customers";
+import Agents from "./pages/dashboard/user-management/agents";
+import Admins from "./pages/dashboard/user-management/admins";
+import Flights from "./pages/dashboard/booking-management/flights";
+import Hotels from "./pages/dashboard/booking-management/hotels";
+import Buses from "./pages/dashboard/booking-management/buses";
+import Holidays from "./pages/dashboard/booking-management/holidays";
+import VisaServices from "./pages/dashboard/booking-management/visa-services";
+import RevenueReport from "./pages/dashboard/report-and-analytics/revenue-report";
+import UserActivityReport from "./pages/dashboard/report-and-analytics/user-activity-report";
+import BookingTrends from "./pages/dashboard/report-and-analytics/booking-trends";
+import CustomReports from "./pages/dashboard/report-and-analytics/custom-reports";
+import TransactionsMonitoring from "./pages/dashboard/payment-and-transations/transaction-monitoring";
+import RefundManagement from "./pages/dashboard/payment-and-transations/refund-management";
+import SupportTickets from "./pages/dashboard/support-and-assistance/support-tickets";
+import CreateOffers from "./pages/dashboard/offers-and-promotions/create-offers";
+import ManageReviews from "./pages/dashboard/feedback-and-reviews/manage-reviews";
+import UserFeedback from "./pages/dashboard/feedback-and-reviews/user-feedback";
+import Corporate from "./pages/dashboard/user-management/corporate";
+import CommissionManagement from "./pages/dashboard/payment-and-transations/comission-management";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +35,7 @@ const router = createBrowserRouter([
     element: <AuthProvider />,
     children: [
       {
-        path: "",
+        path: "/dashboard",
         element: <Layout />,
         children: [
           {
@@ -29,44 +43,96 @@ const router = createBrowserRouter([
             element: <Dashboard />,
           },
           {
-            path: "users",
-            element: <Users />,
+            path: "user-management/customers",
+            element: <Customers />,
           },
           {
-            path: "users/:id",
-            element: <UserDetails />,
+            path: "user-management/corporate",
+            element: <Corporate />,
           },
           {
-            path: "bookings",
-            element: <Bookings />,
+            path: "user-management/agents",
+            element: <Agents />,
           },
           {
-            path: "inventory",
-            element: <Inventory />,
+            path: "user-management/admins",
+            element: <Admins />,
           },
           {
-            path: "reports",
-            element: <Reports />,
+            path: "booking-management/flights",
+            element: <Flights />,
           },
           {
-            path: "finance",
-            element: <Finance />,
+            path: "booking-management/hotels",
+            element: <Hotels />,
           },
           {
-            path: "payments",
-            element: <Payments />,
+            path: "booking-management/buses",
+            element: <Buses />,
           },
           {
-            path: "payments/:id",
-            element: <PaymentDetails />,
+            path: "booking-management/holidays",
+            element: <Holidays />,
+          },
+          {
+            path: "booking-management/visa-services",
+            element: <VisaServices />,
+          },
+          {
+            path: "booking-management/visa-services",
+            element: <VisaServices />,
+          },
+          {
+            path: "report-and-analytics/revenue-report",
+            element: <RevenueReport />,
+          },
+          {
+            path: "report-and-analytics/user-activity-report",
+            element: <UserActivityReport />,
+          },
+          {
+            path: "report-and-analytics/booking-trends",
+            element: <BookingTrends />,
+          },
+          {
+            path: "report-and-analytics/custom-reports",
+            element: <CustomReports />,
+          },
+          {
+            path: "payments-and-transactions/transation-monitoring",
+            element: <TransactionsMonitoring />,
+          },
+          {
+            path: "payments-and-transactions/refund-management",
+            element: <RefundManagement />,
+          },
+          {
+            path: "payments-and-transactions/comission-management",
+            element: <CommissionManagement />,
+          },
+          {
+            path: "support-and-assistance/support-tickets",
+            element: <SupportTickets />,
+          },
+          {
+            path: "offers-and-promotions/create-offers",
+            element: <CreateOffers />,
+          },
+          {
+            path: "offers-and-promotions/manage-reviews",
+            element: <ManageReviews />,
+          },
+          {
+            path: "offers-and-promotions/user-feedback",
+            element: <UserFeedback />,
           },
         ],
       },
     ],
   },
   {
-    path: "/signup",
-    element: <Signup />,
+    path: "/",
+    element: <Login />,
   },
 ]);
 
