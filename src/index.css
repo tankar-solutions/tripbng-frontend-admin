@@ -17,3 +17,12 @@ body {
   background: var(--background);
   font-family: "Poppins", sans-serif;
 }
+/* Ensure toast notifications appear at the bottom-right */
+.rc-toast-container {
+  top: auto !important;
+  bottom: 0 !important;
+  left: auto !important;
+  right: 0 !important;
+  margin-bottom: 20px; /* Optional: Adjust the space from the bottom */
+  z-index: 9999; /* Optional: Ensure it's above other elements */
+}

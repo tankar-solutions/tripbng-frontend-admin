@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { useNavigate } from "react-router-dom"; // Use React Router's useNavigate
-import axios from "axios"; // Assuming you're using axios for HTTP requests
+import { apiService } from "../../services/api";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const navigate = useNavigate(); // Use React Router's navigate hook
@@ -17,24 +18,28 @@ export default function Login() {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.post("/admin/login", {
+      const response = await apiService.post("/admin/login", {
         email,
         password,
       });
-      if (response.data.success) {
+      if (response.success) {
         localStorage.setItem("authToken", response.data.token);
-        console.log("success");
-        navigate("/dashboard"); // Redirect to dashboard
+        localStorage.setItem("adminDetails", JSON.stringify(response.data.adminDetails));
+        console.log("Login successful");
+        navigate('/dashboard')
+        toast.success("Login successful!");
+        console.log("aa", response.data);
+        
       } else {
-        setError(response.data.message); // Set error message if login fails
+        toast.error(response.message);
       }
     } catch (err) {
-      setError("An error occurred. Please try again later.");
+      toast.error(err.response?.data?.message || "An error occurred. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
-
+  
   return (
     <main className="w-full h-screen flex flex-col items-center justify-center px-4">
       <div className="max-w-sm w-full text-gray-600 space-y-5">
@@ -64,8 +69,8 @@ export default function Login() {
           </div>
 
           <Button
-            type="submit" // Change button to type "submit"
-            className="w-full text-neutral-100 bg-yellow-50"
+            type="submit" 
+            className="w-full text-neutral-100 bg-yellow-500 py-2"
             disabled={loading}
           >
             {loading ? "Signing in..." : "Sign in"}

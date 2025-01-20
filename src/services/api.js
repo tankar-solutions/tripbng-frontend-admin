@@ -1,16 +1,22 @@
 import axios from "axios";
 
-const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:1111";
+// Set the base URL for the API (adjust according to your API's base URL)
+const API_BASE_URL = "http://localhost:1111";
 
-const api = axios.create({
-  baseURL,
+// Create an Axios instance
+const apiClient = axios.create({
+  baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-api.interceptors.request.use(
+apiClient.interceptors.request.use(
   (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
@@ -18,29 +24,73 @@ api.interceptors.request.use(
   }
 );
 
-api.interceptors.response.use(
+// Interceptor to handle request and response (optional)
+apiClient.interceptors.request.use(
+  (config) => {
+    // You can add authorization tokens here if needed
+    // config.headers.Authorization = `Bearer ${token}`;
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
+    // You can handle specific response errors here
     return Promise.reject(error);
   }
 );
 
-export const get = async (url, params = {}) => {
-  try {
-    const response = await api.get(url, { params });
-    return response.data;
-  } catch (error) {
-    console.error("API GET Error:", error);
-    throw error;
-  }
-};
+// API Service Methods
+export const apiService = {
+  get: async (url, params = {}) => {
+    try {
+      const response = await apiClient.get(url, { params });
+      return response.data;
+    } catch (error) {
+      console.error("GET Error:", error);
+      throw error;
+    }
+  },
 
-export const post = async (url, data) => {
-  try {
-    const response = await api.post(url, data);
-    return response.data;
-  } catch (error) {
-    console.error("API POST Error:", error);
-    throw error;
-  }
+  post: async (url, data) => {
+    try {
+      const response = await apiClient.post(url, data);
+      return response.data;
+    } catch (error) {
+      console.error("POST Error:", error);
+      throw error;
+    }
+  },
+
+  put: async (url, data) => {
+    try {
+      const response = await apiClient.put(url, data);
+      return response.data;
+    } catch (error) {
+      console.error("PUT Error:", error);
+      throw error;
+    }
+  },
+
+  patch: async (url, data) => {
+    try {
+      const response = await apiClient.patch(url, data);
+      return response.data;
+    } catch (error) {
+      console.error("PATCH Error:", error);
+      throw error;
+    }
+  },
+
+  delete: async (url) => {
+    try {
+      const response = await apiClient.delete(url);
+      return response.data;
+    } catch (error) {
+      console.error("DELETE Error:", error);
+      throw error;
+    }
+  },
 };

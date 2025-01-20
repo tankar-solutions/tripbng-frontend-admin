@@ -28,6 +28,7 @@ import ManageReviews from "./pages/dashboard/feedback-and-reviews/manage-reviews
 import UserFeedback from "./pages/dashboard/feedback-and-reviews/user-feedback";
 import Corporate from "./pages/dashboard/user-management/corporate";
 import CommissionManagement from "./pages/dashboard/payment-and-transations/comission-management";
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
   {
@@ -139,5 +140,13 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={router} />
+    <Toaster
+      position="bottom-right" // Still keep this set
+      toastOptions={{
+        style: {
+          fontSize: "14px",
+        },
+      }}
+    />
   </StrictMode>
 );
