@@ -1,8 +1,40 @@
+import { useState } from "react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // Use React Router's useNavigate
+import axios from "axios"; // Assuming you're using axios for HTTP requests
 
 export default function Login() {
+  const navigate = useNavigate(); // Use React Router's navigate hook
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // Handle form submission
+  const handleLogin = async (e) => {
+    e.preventDefault(); // Prevent the form's default submit behavior
+    setLoading(true);
+    setError("");
+    try {
+      const response = await axios.post("/admin/login", {
+        email,
+        password,
+      });
+      if (response.data.success) {
+        localStorage.setItem("authToken", response.data.token);
+        console.log("success");
+        navigate("/dashboard"); // Redirect to dashboard
+      } else {
+        setError(response.data.message); // Set error message if login fails
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="w-full h-screen flex flex-col items-center justify-center px-4">
       <div className="max-w-sm w-full text-gray-600 space-y-5">
@@ -13,19 +45,33 @@ export default function Login() {
             </h3>
           </div>
         </div>
-        <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
+        <form onSubmit={handleLogin} className="space-y-5"> {/* onSubmit triggers handleLogin */}
           <div>
             <label className="font-medium">Email</label>
-            <Input type="email" required />
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)} // Update email state on change
+            />
           </div>
           <div>
             <label className="font-medium">Password</label>
-            <Input type="password" required />
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)} // Update password state on change
+            />
           </div>
 
-          <Button className="w-full text-neutral-100">
-            <Link to={"/dashboard"}>Sign in</Link>
+          <Button
+            type="submit" // Change button to type "submit"
+            className="w-full text-neutral-100 bg-yellow-50"
+            disabled={loading}
+          >
+            {loading ? "Signing in..." : "Sign in"}
           </Button>
+
+          {error && <div className="text-red-500">{error}</div>} {/* Display error message */}
         </form>
       </div>
     </main>
