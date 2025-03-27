@@ -1,45 +1,34 @@
 import { useState } from "react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
-import { useNavigate } from "react-router-dom"; // Use React Router's useNavigate
-import { apiService } from "../../services/api";
+import { useNavigate } from "react-router-dom"; 
 import toast from "react-hot-toast";
 
 export default function Login() {
-  const navigate = useNavigate(); // Use React Router's navigate hook
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Handle form submission
-  const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent the form's default submit behavior
+  const handleLogin = (e) => {
+    e.preventDefault(); 
     setLoading(true);
     setError("");
-    try {
-      const response = await apiService.post("/admin/login", {
-        email,
-        password,
-      });
-      if (response.success) {
-        localStorage.setItem("authToken", response.data.token);
-        localStorage.setItem("adminDetails", JSON.stringify(response.data.adminDetails));
-        console.log("Login successful");
-        navigate('/dashboard')
-        toast.success("Login successful!");
-        console.log("aa", response.data);
-        
-      } else {
-        toast.error(response.message);
-      }
-    } catch (err) {
-      toast.error(err.response?.data?.message || "An error occurred. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
+    
+    // Simulate a successful login and navigate
+    setTimeout(() => {
+      // Here you can assume the login is successful without any actual API call
+      localStorage.setItem("authToken", "dummyToken"); // Simulating setting a token
+      localStorage.setItem("adminDetails", JSON.stringify({ name: "Admin" })); // Simulating setting admin details
+      console.log("Login successful");
+      navigate('/dashboard'); // Redirect to dashboard
+      toast.success("Login successful!"); // Optional success toast
+    }, 1000); // Simulating delay
+
+    setLoading(false);
   };
-  
+
   return (
     <main className="w-full h-screen flex flex-col items-center justify-center px-4">
       <div className="max-w-sm w-full text-gray-600 space-y-5">
@@ -50,13 +39,13 @@ export default function Login() {
             </h3>
           </div>
         </div>
-        <form onSubmit={handleLogin} className="space-y-5"> {/* onSubmit triggers handleLogin */}
+        <form onSubmit={handleLogin} className="space-y-5">
           <div>
             <label className="font-medium">Email</label>
             <Input
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)} // Update email state on change
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div>

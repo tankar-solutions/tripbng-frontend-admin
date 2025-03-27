@@ -102,7 +102,7 @@ export default function Inventory() {
             type="search"
             name=""
             id=""
-            placeholder="Search anything"
+            placeholder="Sear ch anything"
             className="outline-none bg-transparent"
           />
         </div>
