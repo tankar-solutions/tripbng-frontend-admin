@@ -1,5 +1,5 @@
 
-import HeaderNav from "@/components/layout/HeaderNav";
+import HeaderNav from "../../components/layout/HeaderNav";
 import {
   ArrowLightDown,
   ArrowLightUp,
