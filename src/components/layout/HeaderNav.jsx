@@ -1,19 +1,16 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/ui/button";
-import {
-  BellDot,
-  ChevronDown,
-  Search,
-} from "lucide-react";
+import { BellDot, ChevronDown, Search } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function HeaderNav() {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [token, setToken] = useState(null);
   const [adminDetails, setAdminDetails] = useState(null);
+  const navigate = useNavigate();
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!isDropdownOpen);
-  };
+  const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
@@ -21,17 +18,31 @@ export default function HeaderNav() {
 
     if (authToken) {
       setToken(authToken);
-      console.log("AuthToken from localStorage:", authToken);  // Log the token
+      console.log("AuthToken from localStorage:", authToken);
     }
 
-    if (storedAdminDetails) {
-      const parsedAdminDetails = JSON.parse(storedAdminDetails);  // Parse the stored JSON string
-      setAdminDetails(parsedAdminDetails);
-      console.log("Admin Details from localStorage:", parsedAdminDetails);  // Log the admin details
+    try {
+      if (storedAdminDetails) {
+        const parsedAdminDetails = JSON.parse(storedAdminDetails);
+        setAdminDetails(parsedAdminDetails);
+        console.log("Admin Details from localStorage:", parsedAdminDetails);
+      }
+    } catch (error) {
+      console.error("Error parsing admin details:", error);
     }
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("adminDetails");
+    setToken(null);
+    setAdminDetails(null);
+    toast.success("Logged out successfully!");
+    navigate("/login");
+  };
+
   return (
-    <div className="flex justify-between items-center px-4 py-3">
+    <div className="flex justify-between items-center px-4 py-3 bg-white shadow-md">
       {/* Dashboard Title */}
       <h1 className="text-lg font-semibold text-gray-800">Dashboard</h1>
 
@@ -41,8 +52,6 @@ export default function HeaderNav() {
           <Search className="text-gray-500" size={15} />
           <input
             type="search"
-            name=""
-            id=""
             placeholder="Search anything"
             className="outline-none bg-transparent text-sm text-gray-700"
           />
@@ -57,38 +66,43 @@ export default function HeaderNav() {
         </Button>
 
         {/* User Profile */}
-        <div
-          className="flex items-center gap-3 relative"
-          onClick={toggleDropdown}
-        >
-          <div className="w-10 h-10 bg-orange-400/50 rounded-xl flex items-center justify-center">
-            <p className="text-white font-semibold">M</p>
-            {/* Placeholder for initials */}
+        <div className="relative">
+          <div
+            className="flex items-center gap-3 cursor-pointer"
+            onClick={toggleDropdown}
+          >
+            <div className="w-10 h-10 bg-orange-400/50 rounded-xl flex items-center justify-center">
+              <p className="text-white font-semibold">
+                {adminDetails?.fullName ? adminDetails.fullName[0].toUpperCase() : "A"}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-800">
+                {adminDetails?.fullName || "Admin"}
+              </p>
+              <p className="text-xs text-neutral-400">Admin</p>
+            </div>
+            <ChevronDown size={20} className="text-gray-500" />
           </div>
-          <div>
-            <p className="text-sm text-gray-800">{adminDetails?.fullName}</p>
-            <p className="text-xs text-neutral-400">Admin</p>
-          </div>
-          <ChevronDown size={20} className="text-gray-500" />
 
           {/* Dropdown Menu */}
-          <div
-            className={`absolute right-0 mt-32 w-48 bg-white shadow-lg rounded-lg border border-gray-200 transition-all duration-300 ease-in-out transform ${
-              isDropdownOpen
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-4"
-            }`}
-            style={{ pointerEvents: isDropdownOpen ? "auto" : "none" }}
-          >
-            <ul className="flex flex-col">
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                Account Settings
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                Logout
-              </li>
-            </ul>
-          </div>
+          {isDropdownOpen && (
+            <div
+              className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200 z-50 transition-all duration-200 ease-in-out"
+            >
+              <ul className="flex flex-col">
+                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  Account Settings
+                </li>
+                <li
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>
