@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -15,28 +15,37 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     setError("");
-    
+
     try {
-      const response = await fetch("https://tripbng-backend-api-c6kw.onrender.com/admin/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
+      const response = await fetch(
+        "https://tripbng-backend-api-c6kw.onrender.com/admin/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
+        // ✅ Save token & admin details
         localStorage.setItem("authToken", data.token);
-        localStorage.setItem("adminDetails", JSON.stringify(data.adminDetails));
+        localStorage.setItem("adminDetails", JSON.stringify(data.admin));
+
         toast.success("Login successful!");
-        navigate("/dashboard");
+
+        // ✅ Navigate to OTP verify with email & OTP
+        navigate("/otp-verify", {
+          state: { email, backendOtp: data.otp },
+        });
       } else {
         toast.error(data.message || "Invalid credentials");
       }
     } catch (err) {
-      toast.error("An error occurred. Please try again later.");
+      toast.error("Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -52,11 +61,12 @@ export default function Login() {
         </div>
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
-            <label className="font-medium">Username</label>
+            <label className="font-medium">Email</label>
             <Input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           <div>
@@ -65,6 +75,7 @@ export default function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 

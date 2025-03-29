@@ -91,9 +91,24 @@ export default function HeaderNav() {
               className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200 z-50 transition-all duration-200 ease-in-out"
             >
               <ul className="flex flex-col">
-                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                  Account Settings
-                </li>
+              <li
+              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              onClick={() => {
+                navigate("/change-password");
+                setDropdownOpen(false);
+              }}
+            >
+              Change Password
+            </li>
+            <li
+              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              onClick={() => {
+                navigate("/forget-password");
+                setDropdownOpen(false);
+              }}
+            >
+              Forget Password
+            </li>
                 <li
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                   onClick={handleLogout}

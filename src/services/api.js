@@ -1,13 +1,13 @@
 import axios from "axios";
 
-// Set the base URL for the API (adjust according to your API's base URL)
-const API_BASE_URL = "http://localhost:1111";
+// const API_BASE_URL = "https://tripbng-backend-api-c6kw.onrender.com";
+const API_BASE_URL = "https://tripbng-backend-api-c6kw.onrender.com";
 
-// Create an Axios instance
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
+    Accept: "application/json",
   },
 });
 
@@ -15,20 +15,8 @@ apiClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-// Interceptor to handle request and response (optional)
-apiClient.interceptors.request.use(
-  (config) => {
-    // You can add authorization tokens here if needed
-    // config.headers.Authorization = `Bearer ${token}`;
     return config;
   },
   (error) => Promise.reject(error)
@@ -37,39 +25,31 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    // You can handle specific response errors here
+    console.error("API Error:", error?.response?.data || error.message);
     return Promise.reject(error);
   }
 );
 
-// API Service Methods
 export const apiService = {
   get: async (url, params = {}) => {
     try {
       const response = await apiClient.get(url, { params });
       return response.data;
     } catch (error) {
-      console.error("GET Error:", error);
+      console.error("GET Error:", error?.response?.data || error.message);
       throw error;
     }
   },
 
-  post: async (url, data) => {
+  post: async (url, data, useFormData = false) => {
     try {
-      const response = await apiClient.post(url, data);
+      const config = useFormData
+        ? { headers: { "Content-Type": "multipart/form-data" } }
+        : {};
+      const response = await apiClient.post(url, data, config);
       return response.data;
     } catch (error) {
-      console.error("POST Error:", error);
-      throw error;
-    }
-  },
-
-  put: async (url, data) => {
-    try {
-      const response = await apiClient.put(url, data);
-      return response.data;
-    } catch (error) {
-      console.error("PUT Error:", error);
+      console.error("POST Error:", error?.response?.data || error.message);
       throw error;
     }
   },
@@ -79,7 +59,7 @@ export const apiService = {
       const response = await apiClient.patch(url, data);
       return response.data;
     } catch (error) {
-      console.error("PATCH Error:", error);
+      console.error("PATCH Error:", error?.response?.data || error.message);
       throw error;
     }
   },
@@ -89,7 +69,7 @@ export const apiService = {
       const response = await apiClient.delete(url);
       return response.data;
     } catch (error) {
-      console.error("DELETE Error:", error);
+      console.error("DELETE Error:", error?.response?.data || error.message);
       throw error;
     }
   },

@@ -8,6 +8,10 @@ import Layout from "./pages/dashboard/layout";
 import AuthProvider from "./components/auth-provider";
 
 import Login from "./pages/auth/login";
+import OtpVerify from "./pages/auth/OtpVerify";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
+
 import Customers from "./pages/dashboard/user-management/customers";
 import Agents from "./pages/dashboard/user-management/agents";
 import Admins from "./pages/dashboard/user-management/admins";
@@ -135,6 +139,19 @@ const router = createBrowserRouter([
     path: "/",
     element: <Login />,
   },
+  {
+    path : "/otp-verify",
+    element :<OtpVerify />,
+  },
+  {
+    path :"/forget-password",
+    element : <ForgotPassword />,
+  },
+  {
+    path : "/reset-password",
+    element : <ResetPassword />,
+  }
+ 
 ]);
 
 createRoot(document.getElementById("root")).render(
