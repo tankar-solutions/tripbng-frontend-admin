@@ -9,12 +9,10 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     try {
       const response = await fetch(
@@ -29,22 +27,17 @@ export default function Login() {
       );
 
       const data = await response.json();
+      console.log("Login Response:", data); // ✅ Debugging output
 
       if (response.ok) {
-        // ✅ Save token & admin details
-        localStorage.setItem("authToken", data.token);
-        localStorage.setItem("adminDetails", JSON.stringify(data.admin));
-
-        toast.success("Login successful!");
-
-        // ✅ Navigate to OTP verify with email & OTP
-        navigate("/otp-verify", {
-          state: { email, backendOtp: data.otp },
-        });
+        toast.success("OTP sent to your email!");
+        // ✅ Navigate to OTP Verify page with email
+        navigate("/otp-verify", { state: { email } });
       } else {
         toast.error(data.message || "Invalid credentials");
       }
     } catch (err) {
+      console.error("Login Error:", err);
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
@@ -78,7 +71,6 @@ export default function Login() {
               required
             />
           </div>
-
           <Button
             type="submit"
             className="w-full text-neutral-100 bg-yellow-500 py-2"
@@ -86,8 +78,6 @@ export default function Login() {
           >
             {loading ? "Signing in..." : "Sign in"}
           </Button>
-
-          {error && <div className="text-red-500">{error}</div>}
         </form>
       </div>
     </main>

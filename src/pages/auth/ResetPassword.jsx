@@ -7,32 +7,60 @@ import toast from "react-hot-toast";
 export default function ResetPassword() {
   const navigate = useNavigate();
   const location = useLocation();
-  const email = location.state?.email || "";
 
+  // Retrieve email from state but allow editing
+  const [email, setEmail] = useState(location.state?.email || "");
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Get token from localStorage
+  let authToken = localStorage.getItem("accessToken");
+
+  if (!email) {
+    toast.error("Invalid request! Please enter your email first.");
+    navigate("/forgot-password"); // Redirect back if email is missing
+    return null;
+  }
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    if (!authToken) {
+      toast.error("Session expired! Please login again.");
+      navigate("/");
+      return;
+    }
+
     try {
-      const response = await fetch("https://api.tripbng.com/admin/verifyOtp", {
+      const response = await fetch("https://api.tripbng.com/admin/ChangeForgetPass", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
         body: JSON.stringify({
-          Email: email,
-          Otp: otp,
-          NewPass: newPassword,
+          code: otp,
+          newPassword,
+          email, // Editable email field
         }),
       });
 
       const data = await response.json();
 
-      if (response.ok) {
-        toast.success(data.message || "Password reset successfully!");
-        navigate("/login");
+      // Handle token expiration case
+      if (response.status === 401 || data.message === "Your Access Token is expire Please Login Again") {
+        toast.error("Session expired! Please login again.");
+        localStorage.removeItem("accessToken");
+        navigate("/");
+        return;
+      }
+
+      if (response.ok && data.status === 200 && data.data?.success) {
+        console.log("Your Password is SuccessFully Change"); // ✅ Log success message
+        toast.success(data.message || "Your Password is Successfully Changed!");
+        navigate("/");
       } else {
         toast.error(data.message || "Failed to reset password");
       }
@@ -67,6 +95,15 @@ export default function ResetPassword() {
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className="font-medium">Email</label>
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)} // Allow user to change email
               required
             />
           </div>

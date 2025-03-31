@@ -11,6 +11,7 @@ import Login from "./pages/auth/login";
 import OtpVerify from "./pages/auth/OtpVerify";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
+import Logout from "./pages/auth/Logout";
 
 import Customers from "./pages/dashboard/user-management/customers";
 import Agents from "./pages/dashboard/user-management/agents";
@@ -150,6 +151,10 @@ const router = createBrowserRouter([
   {
     path : "/reset-password",
     element : <ResetPassword />,
+  },
+  {
+    path : "/logout",
+    element : <Logout />,
   }
  
 ]);

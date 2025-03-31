@@ -13,25 +13,36 @@ export default function ForgotPassword() {
     e.preventDefault();
     setLoading(true);
 
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+      toast.error("Unauthorized! Please log in first.");
+      setLoading(false);
+      return;
+    }
+
     try {
-      const response = await fetch(
-        "https://api.tripbng.com/admin/forgetPass",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        }
-      );
-      const data = await response.json();
+      const response = await fetch("https://api.tripbng.com/admin/forgetPass", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const result = await response.json();
+      console.log("Forgot Password Response:", result);
 
       if (response.ok) {
         toast.success("OTP sent to your email!");
         navigate("/reset-password", { state: { email } });
       } else {
-        toast.error(data.message || "Email not found");
+        toast.error(result.message || "Failed to send OTP.");
       }
     } catch (err) {
-      toast.error("Something went wrong");
+      console.error("Forgot Password Error:", err);
+      toast.error("Something went wrong. Try again.");
     } finally {
       setLoading(false);
     }
@@ -45,20 +56,17 @@ export default function ForgotPassword() {
             Forgot Password
           </h3>
           <p className="text-sm text-gray-500 mt-2">
-            Enter your registered email to reset password.
+            Enter your email to receive an OTP.
           </p>
         </div>
         <form onSubmit={handleForgotPassword} className="space-y-5">
-          <div>
-            <label className="font-medium">Email</label>
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
+          <Input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
           <Button
             type="submit"
             className="w-full text-neutral-100 bg-yellow-500 py-2"

@@ -5,12 +5,10 @@ import { BellDot, ChevronDown, Search } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function HeaderNav() {
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [token, setToken] = useState(null);
   const [adminDetails, setAdminDetails] = useState(null);
+  const [isDropdownOpen, setDropdownOpen] = useState(false); // ✅ Fix: Added state for dropdown
   const navigate = useNavigate();
-
-  const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
@@ -32,13 +30,11 @@ export default function HeaderNav() {
     }
   }, []);
 
+  const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
+
   const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("adminDetails");
-    setToken(null);
-    setAdminDetails(null);
-    toast.success("Logged out successfully!");
-    navigate("/login");
+    setDropdownOpen(false); // ✅ Close dropdown before navigating
+    navigate("/logout"); // ✅ Redirect to logout page
   };
 
   return (
@@ -87,31 +83,29 @@ export default function HeaderNav() {
 
           {/* Dropdown Menu */}
           {isDropdownOpen && (
-            <div
-              className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200 z-50 transition-all duration-200 ease-in-out"
-            >
+            <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200 z-50 transition-all duration-200 ease-in-out">
               <ul className="flex flex-col">
-              <li
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-              onClick={() => {
-                navigate("/change-password");
-                setDropdownOpen(false);
-              }}
-            >
-              Change Password
-            </li>
-            <li
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-              onClick={() => {
-                navigate("/forget-password");
-                setDropdownOpen(false);
-              }}
-            >
-              Forget Password
-            </li>
                 <li
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={handleLogout}
+                  onClick={() => {
+                    navigate("/change-password");
+                    setDropdownOpen(false);
+                  }}
+                >
+                  Change Password
+                </li>
+                <li
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => {
+                    navigate("/forget-password");
+                    setDropdownOpen(false);
+                  }}
+                >
+                  Forget Password
+                </li>
+                <li
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={handleLogout} // ✅ Logout via separate page
                 >
                   Logout
                 </li>
