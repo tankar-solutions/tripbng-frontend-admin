@@ -70,7 +70,6 @@ export default function Sidebar() {
             </li>
           ))}
         </ul>
-        <Button className="w-full mt-10 text-neutral-100">Logout</Button>
       </div>
     </aside>
   );

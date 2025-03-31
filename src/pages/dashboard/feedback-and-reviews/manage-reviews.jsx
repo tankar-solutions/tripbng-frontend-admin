@@ -1,4 +1,5 @@
 import { Button } from "../../../components/ui/button";
+import HeaderNav from "../../../components/layout/HeaderNav";
 import {
   Table,
   TableBody,
@@ -46,7 +47,7 @@ export default function ManageReviews() {
 
   return (
     <section className="flex flex-col gap-6">
-      <h1 className="text-lg font-semibold">Manage Reviews</h1>
+      <HeaderNav title="Manage-Reviews" />
       <div className="bg-white rounded-xl p-4">
         <Table>
           <TableHeader>

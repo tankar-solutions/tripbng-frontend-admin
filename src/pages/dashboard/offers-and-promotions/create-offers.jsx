@@ -1,4 +1,5 @@
 import { Button } from "../../../components/ui/button";
+import HeaderNav from "../../../components/layout/HeaderNav";
 import {
   Table,
   TableBody,
@@ -45,7 +46,7 @@ export default function CreateOffers() {
 
   return (
     <section className="flex flex-col gap-6">
-      <h1 className="text-lg font-semibold">Create Offers</h1>
+        <HeaderNav title="Create-Offers" />
       <div className="flex flex-col gap-4">
         <input
           type="text"

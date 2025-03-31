@@ -1,11 +1,5 @@
-import { Button } from "../../../components/ui/button";
-import {
-  BellDot,
-  ChevronDown,
-  CircleHelp,
-  Search,
-  Settings,
-} from "lucide-react";
+import { useEffect, useState } from "react";
+import HeaderNav from "../../../components/layout/HeaderNav";
 import {
   Table,
   TableBody,
@@ -15,159 +9,96 @@ import {
   TableRow,
 } from "../../../components/ui/table";
 import { Link } from "react-router-dom";
-
-const usersWithBookings = [
-  {
-    userId: "U001",
-    userName: "John Doe",
-    role: "Admin",
-    avatar: "https://i.pravatar.cc/150?img=1",
-    email: "john.doe@example.com",
-    phone: "+1 123 456 7890",
-    location: "New York, USA",
-    status: "Active",
-  },
-  {
-    userId: "U002",
-    userName: "Jane Smith",
-    role: "Customer",
-    avatar: "https://i.pravatar.cc/150?img=2",
-    email: "jane.smith@example.com",
-    phone: "+1 987 654 3210",
-    location: "Los Angeles, USA",
-    status: "Inactive",
-  },
-  {
-    userId: "U003",
-    userName: "Robert Johnson",
-    role: "Customer",
-    avatar: "https://i.pravatar.cc/150?img=3",
-    email: "robert.johnson@example.com",
-    phone: "+1 555 555 5555",
-    location: "Chicago, USA",
-    status: "Active",
-  },
-  {
-    userId: "U004",
-    userName: "Emily Davis",
-    role: "Admin",
-    avatar: "https://i.pravatar.cc/150?img=4",
-    email: "emily.davis@example.com",
-    phone: "+44 20 7946 0958",
-    location: "London, UK",
-    status: "Active",
-  },
-  {
-    userId: "U005",
-    userName: "Michael Brown",
-    role: "Customer",
-    avatar: "https://i.pravatar.cc/150?img=5",
-    email: "michael.brown@example.com",
-    phone: "+49 30 1234 5678",
-    location: "Berlin, Germany",
-    status: "Pending",
-  },
-  {
-    userId: "U006",
-    userName: "Sarah Connor",
-    role: "Customer",
-    avatar: "https://i.pravatar.cc/150?img=6",
-    email: "sarah.connor@example.com",
-    phone: "+33 1 23 45 67 89",
-    location: "Paris, France",
-    status: "Inactive",
-  },
-  // ...add more users as needed
-];
+import toast from "react-hot-toast";
 
 export default function Customers() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("https://api.tripbng.com/admin/getalluser", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+
+      const result = await response.json();
+      if (response.ok && result.data.success) {
+        setUsers(result.data.data);
+      } else {
+        toast.error(result.message || "Failed to fetch users.");
+      }
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      toast.error("Something went wrong. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers(); 
+    const interval = setInterval(fetchUsers, 60000); 
+    return () => clearInterval(interval); 
+  }, []);
+
   return (
     <section className="flex flex-col gap-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-lg font-semibold">Customers</h1>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-3 bg-white rounded-xl p-2 text-neutral-400 text-sm">
-            <Search className="font-thin" size={15} />
-            <input
-              type="search"
-              name=""
-              id=""
-              placeholder="Search users"
-              className="outline-none bg-transparent"
-            />
-          </div>
-          <Button size="icon" className="bg-white text-neutral-700">
-            <BellDot size={20} />
-          </Button>
-          <Button size="icon" className="bg-white text-neutral-700">
-            <CircleHelp size={20} />
-          </Button>
-          <Button size="icon" className="bg-white text-neutral-700">
-            <Settings size={20} />
-          </Button>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-orange-400/50 rounded-xl" />
-            <div>
-              <p className="text-sm">Martin Septimus</p>
-              <p className="text-xs text-neutral-400">Admin</p>
-            </div>
-            <ChevronDown size={20} />
-          </div>
-        </div>
-      </div>
+      <HeaderNav title="Customers" />
+
       <div className="bg-white rounded-xl">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>User Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Phone</TableHead>
-              <TableHead>Location</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Status</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {usersWithBookings.map((user) => (
-              <TableRow key={user.userId} className="text-sm">
-                <TableCell className="flex items-center gap-3">
-                  <Link
-                    to={`${user.userId}`}
-                    className="flex items-center gap-4"
-                  >
-                    <img
-                      src={user.avatar}
-                      alt={`${user.userName}'s Avatar`}
-                      className="w-10 h-10 rounded-full"
-                    />
-                    {user.userName}
-                  </Link>
-                </TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.phone}</TableCell>
-                <TableCell>{user.location}</TableCell>
-                <TableCell>
-                  <p className="w-fit p-1 text-xs rounded-md bg-green-200 text-green-800">
-                    {user.role}
-                  </p>
-                </TableCell>
-                <TableCell>
-                  <p
-                    className={`w-fit p-1 text-xs rounded-md ${
-                      user.status === "Active"
-                        ? "bg-green-200 text-green-800"
-                        : user.status === "Inactive"
-                        ? "bg-red-200 text-red-800"
-                        : "bg-yellow-200 text-yellow-800"
-                    }`}
-                  >
-                    {user.status}
-                  </p>
-                </TableCell>
+        {loading ? (
+          <p className="text-center p-4">Loading...</p>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>User Name</TableHead>
+                <TableHead>Email</TableHead>
+                <TableHead>Phone</TableHead>
+                <TableHead>Location</TableHead>
+                <TableHead>Role</TableHead>
+                <TableHead>Status</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {users.length > 0 ? (
+                users.map((user) => (
+                  <TableRow key={user._id} className="text-sm">
+                    <TableCell className="flex items-center gap-3">
+                      <Link to={`${user._id}`} className="flex items-center gap-4">
+                        {user.name || "Unknown User"}
+                      </Link>
+                    </TableCell>
+                    <TableCell>{user.email || "N/A"}</TableCell>
+                    <TableCell>{user.mobile || "N/A"}</TableCell>
+                    <TableCell>{user.address || "N/A"}</TableCell>
+                    <TableCell>
+                      <p className="w-fit p-1 text-xs rounded-md bg-green-200 text-green-800">
+                        {user.Usertype || "N/A"}
+                      </p>
+                    </TableCell>
+                    <TableCell>
+                      <p className={`w-fit p-1 text-xs rounded-md ${user.isActive ? "bg-green-200 text-green-800" : "bg-red-200 text-red-800"}`}>
+                        {user.isActive ? "Active" : "Inactive"}
+                      </p>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center text-gray-500">
+                    No users found.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        )}
       </div>
     </section>
   );

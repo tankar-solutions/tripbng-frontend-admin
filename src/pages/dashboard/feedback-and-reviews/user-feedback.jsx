@@ -1,4 +1,5 @@
 import { Button } from "../../../components/ui/button";
+import HeaderNav from "../../../components/layout/HeaderNav";
 import {
   Table,
   TableBody,
@@ -39,7 +40,7 @@ export default function UserFeedback() {
 
   return (
     <section className="flex flex-col gap-6">
-      <h1 className="text-lg font-semibold">User Feedback</h1>
+      <HeaderNav title="User-feedback" />
       <div className="bg-white rounded-xl p-4">
         <Table>
           <TableHeader>

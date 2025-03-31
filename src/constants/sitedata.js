@@ -1,7 +1,7 @@
 export const navitems = [
   {
-    label: "Dashboard",
-    href: "/dashboard",
+    label :"Dashboard",
+    href : "/dashboard",
   },
   {
     label: "User Management",

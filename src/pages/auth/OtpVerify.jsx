@@ -45,7 +45,7 @@ export default function OtpVerify() {
   
     try {
       const response = await fetch(
-        "https://tripbng-backend-api-c6kw.onrender.com/admin/vfyOTPLogin",
+        "https://api.tripbng.com/admin/vfyOTPLogin",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

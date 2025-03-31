@@ -1,4 +1,5 @@
 import { Button } from "../../../components/ui/button";
+import HeaderNav from "../../../components/layout/HeaderNav";
 import {
   Table,
   TableBody,
@@ -54,8 +55,9 @@ const refunds = [
 export default function RefundManagement() {
   return (
     <section className="flex flex-col gap-6">
-      <h1 className="text-lg font-semibold">Refund Management</h1>
-      <Button className="mb-4">Refresh Refunds</Button>
+      <HeaderNav title="Refund-Management" />
+        <div className="flex items-end justify-end">
+        <Button className="mb-2 w-1/6">Refresh Transactions</Button></div>
       <div className="bg-white rounded-xl p-4">
         <Table>
           <TableHeader>

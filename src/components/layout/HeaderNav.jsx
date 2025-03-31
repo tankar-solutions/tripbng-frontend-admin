@@ -4,10 +4,10 @@ import { Button } from "../../components/ui/button";
 import { BellDot, ChevronDown, Search } from "lucide-react";
 import toast from "react-hot-toast";
 
-export default function HeaderNav() {
+export default function HeaderNav({ title }) {
   const [token, setToken] = useState(null);
   const [adminDetails, setAdminDetails] = useState(null);
-  const [isDropdownOpen, setDropdownOpen] = useState(false); // ✅ Fix: Added state for dropdown
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,14 +33,14 @@ export default function HeaderNav() {
   const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
 
   const handleLogout = () => {
-    setDropdownOpen(false); // ✅ Close dropdown before navigating
-    navigate("/logout"); // ✅ Redirect to logout page
+    setDropdownOpen(false);
+    navigate("/logout");
   };
 
   return (
     <div className="flex justify-between items-center px-4 py-3 bg-white shadow-md">
-      {/* Dashboard Title */}
-      <h1 className="text-lg font-semibold text-gray-800">Dashboard</h1>
+      {/* Dynamic Page Title */}
+      <h1 className="text-lg font-semibold text-gray-800">{title}</h1>
 
       <div className="flex items-center gap-3">
         {/* Search Bar */}
@@ -105,7 +105,7 @@ export default function HeaderNav() {
                 </li>
                 <li
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={handleLogout} // ✅ Logout via separate page
+                  onClick={handleLogout}
                 >
                   Logout
                 </li>

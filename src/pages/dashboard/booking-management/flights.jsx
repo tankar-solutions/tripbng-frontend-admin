@@ -1,13 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button } from "../../../components/ui/button";
-import { 
-  BellDot, 
-  ChevronDown, 
-  CircleHelp, 
-  Plus, 
-  Search, 
-  Settings 
-} from "lucide-react";
+import HeaderNav from "../../../components/layout/HeaderNav";
 import { 
   Table, 
   TableBody, 
@@ -16,7 +8,6 @@ import {
   TableHeader, 
   TableRow 
 } from "../../../components/ui/table";
-import { CalendarIcon, Filter } from "../../../components/icons";
 import toast from "react-hot-toast";
 
 export default function Flights() {
@@ -53,22 +44,7 @@ export default function Flights() {
 
   return (
     <section className="flex flex-col gap-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-lg font-semibold">Flights</h1>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-3 bg-white rounded-xl p-2 text-neutral-400 text-sm">
-            <Search size={15} />
-            <input
-              type="search"
-              placeholder="Search anything"
-              className="outline-none bg-transparent"
-            />
-          </div>
-          <Button size="icon" className="bg-white text-neutral-700"><BellDot size={20} /></Button>
-          <Button size="icon" className="bg-white text-neutral-700"><CircleHelp size={20} /></Button>
-          <Button size="icon" className="bg-white text-neutral-700"><Settings size={20} /></Button>
-        </div>
-      </div>
+    <HeaderNav title="Flights" />
       <div className="bg-white rounded-xl p-4">
         {loading ? (
           <Table>

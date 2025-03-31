@@ -16,7 +16,7 @@ export default function Login() {
 
     try {
       const response = await fetch(
-        "https://tripbng-backend-api-c6kw.onrender.com/admin/login",
+        "https://api.tripbng.com/admin/login",
         {
           method: "POST",
           headers: {

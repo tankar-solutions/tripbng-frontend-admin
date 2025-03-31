@@ -1,4 +1,5 @@
 import { Button } from "../../../components/ui/button";
+import HeaderNav from "../../../components/layout/HeaderNav";
 import {
   Table,
   TableBody,
@@ -49,8 +50,9 @@ const tickets = [
 export default function SupportTickets() {
   return (
     <section className="flex flex-col gap-6">
-      <h1 className="text-lg font-semibold">Support Tickets</h1>
-      <Button className="mb-4">Refresh Tickets</Button>
+      <HeaderNav title="Support Tickets" />
+        <div className="flex items-end justify-end">
+        <Button className="mb-2 w-1/6">Refresh Tickets</Button></div>
       <div className="bg-white rounded-xl p-4">
         <Table>
           <TableHeader>

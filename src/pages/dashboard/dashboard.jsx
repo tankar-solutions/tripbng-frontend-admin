@@ -52,7 +52,7 @@ const DashboardSummmary = [
 export default function Dashboard() {
   return (
     <section className="flex flex-col gap-6">
-     <HeaderNav/>
+     <HeaderNav title="Dashboard" />
       <div className="grid grid-cols-4 gap-4">
         {DashboardSummmary.map((el) => (
           <div

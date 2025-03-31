@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import HeaderNav from "../../../components/layout/HeaderNav";
 import {
   Table,
   TableBody,
@@ -30,8 +31,9 @@ export default function RevenueReport() {
 
   return (
     <section className="flex flex-col gap-6">
-      <h1 className="text-lg font-semibold">Revenue Report</h1>
-      <Button className="mb-4">Download Report</Button>
+       <HeaderNav title="Revnue-Reports" />
+       <div className="flex items-end justify-end">
+      <Button className="mb-2 w-1/6">Download Report</Button></div>
       <div className="bg-white rounded-xl p-4">
         <Table>
           <TableHeader>
