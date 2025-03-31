@@ -9,6 +9,7 @@ import AuthProvider from "./components/auth-provider";
 
 import Login from "./pages/auth/login";
 import OtpVerify from "./pages/auth/OtpVerify";
+import ChangePassword from "./pages/auth/ChangePassword";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import Logout from "./pages/auth/Logout";
@@ -143,6 +144,10 @@ const router = createBrowserRouter([
   {
     path : "/otp-verify",
     element :<OtpVerify />,
+  },
+  {
+    path : "/change-password",
+    element : <ChangePassword />,
   },
   {
     path :"/forget-password",
