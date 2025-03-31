@@ -20,7 +20,8 @@ export default function Sidebar() {
           to="/dashboard"
           className="flex items-center ps-2.5 mb-5 justify-center w-full"
         >
-          <Logo />
+          <img src="/logo.png" alt="Logo" className="h-10 w-auto" />
+
         </Link>
         <ul className="space-y-2">
           {navitems.map((item) => (
