@@ -3,6 +3,7 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { apiService } from "../../services/api";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -11,38 +12,31 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
+    e.preventDefault(); // Prevent default form submission
+  
     try {
-      const response = await fetch(
-        "https://api.tripbng.com/admin/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        }
-      );
-
-      const data = await response.json();
-      console.log("Login Response:", data); // ✅ Debugging output
-
-      if (response.ok) {
-        toast.success("OTP sent to your email!");
-        // ✅ Navigate to OTP Verify page with email
+      setLoading(true); 
+  
+      const response = await apiService.post("/admin/login", {
+        email,
+        password,
+      });
+  
+      if (response.status === 200) {
+  
+        toast.success("Login successful!");
         navigate("/otp-verify", { state: { email } });
       } else {
-        toast.error(data.message || "Invalid credentials");
+        toast.error("Login failed. Please check your credentials."); // Show error message
       }
-    } catch (err) {
-      console.error("Login Error:", err);
-      toast.error("Something went wrong");
+    } catch (error) {
+      toast.error("Login failed. Please try again."); // Show error message
+      console.error("Login Error:", error); // Log detailed error for debugging
     } finally {
-      setLoading(false);
+      setLoading(false); // Set loading state back to false
     }
   };
+  
 
   return (
     <main className="w-full h-screen flex flex-col items-center justify-center px-4">

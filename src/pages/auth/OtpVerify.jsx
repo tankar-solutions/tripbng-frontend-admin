@@ -3,6 +3,7 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { apiService } from "../../services/api";
 
 export default function OtpVerify() {
   const navigate = useNavigate();
@@ -44,22 +45,16 @@ export default function OtpVerify() {
     }
   
     try {
-      const response = await fetch(
-        "https://api.tripbng.com/admin/vfyOTPLogin",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, code: otpCode }),
-        }
-      );
+      const response = await apiService.post("/admin/vfyOTPLogin", {
+        email,
+        code: otpCode,
+      });
   
-      const result = await response.json();
-      console.log("OTP API Response:", result); // ✅ Debugging output
+      console.log("OTP API Response:", response); // ✅ Debugging output
   
-      const token = result?.data?.data?.AccessTocken || result?.data?.AccessTocken || result?.token;
-      console.log("Extracted Token:", token); // ✅ Debugging output
+      const token = response?.data?.data?.AccessTocken; // ✅ Extract the correct token
   
-      if (response.ok && token) {
+      if (token) {
         localStorage.setItem("accessToken", token);
         toast.success("OTP Verified Successfully!");
         navigate("/dashboard");
@@ -68,11 +63,12 @@ export default function OtpVerify() {
       }
     } catch (err) {
       console.error("OTP Verification Error:", err);
-      toast.error("Something went wrong");
+      toast.error(err.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
   };
+  
   
 
   return (
@@ -111,4 +107,4 @@ export default function OtpVerify() {
       </div>
     </main>
   );
-} 
+}

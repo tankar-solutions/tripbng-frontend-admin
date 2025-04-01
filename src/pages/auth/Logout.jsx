@@ -1,22 +1,30 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { apiService } from "../../services/api"; 
 
 export default function Logout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Remove token from localStorage
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("adminDetails");
+    const handleLogout = async () => {
+      try {
+        await apiService.post("/admin/logout");
+      
+        localStorage.removeItem("token");
+        localStorage.removeItem("adminDetails");
 
-    // Show success message
-    toast.success("Logged out successfully!");
+        toast.success("Logged out successfully!");
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      } catch (error) {
+        console.error("Logout Error:", error);
+        toast.error("Failed to logout. Please try again.");
+      }
+    };
 
-    // Redirect to login page after a short delay
-    setTimeout(() => {
-      navigate("/");
-    }, 1000);
+    handleLogout();
   }, [navigate]);
 
   return (
