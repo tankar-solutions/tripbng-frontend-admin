@@ -30,20 +30,6 @@ const visaApplications = [
     applicationDate: "2024-09-22",
     status: "Rejected",
   },
-  {
-    applicationId: "VA004",
-    customerName: "Emily Davis",
-    visaType: "Work",
-    applicationDate: "2024-09-23",
-    status: "Approved",
-  },
-  {
-    applicationId: "VA005",
-    customerName: "Michael Brown",
-    visaType: "Transit",
-    applicationDate: "2024-09-24",
-    status: "Approved",
-  },
 ];
 
 export default function VisaServices() {

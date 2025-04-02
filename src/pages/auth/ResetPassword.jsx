@@ -8,18 +8,18 @@ export default function ResetPassword() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Retrieve email from state but allow editing
+
   const [email, setEmail] = useState(location.state?.email || "");
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Get token from localStorage
+  
   let authToken = localStorage.getItem("accessToken");
 
   if (!email) {
     toast.error("Invalid request! Please enter your email first.");
-    navigate("/forgot-password"); // Redirect back if email is missing
+    navigate("/forgot-password");
     return null;
   }
 
@@ -43,13 +43,12 @@ export default function ResetPassword() {
         body: JSON.stringify({
           code: otp,
           newPassword,
-          email, // Editable email field
+          email, 
         }),
       });
 
       const data = await response.json();
 
-      // Handle token expiration case
       if (response.status === 401 || data.message === "Your Access Token is expire Please Login Again") {
         toast.error("Session expired! Please login again.");
         localStorage.removeItem("accessToken");
@@ -58,7 +57,7 @@ export default function ResetPassword() {
       }
 
       if (response.ok && data.status === 200 && data.data?.success) {
-        console.log("Your Password is SuccessFully Change"); // ✅ Log success message
+        console.log("Your Password is SuccessFully Change");
         toast.success(data.message || "Your Password is Successfully Changed!");
         navigate("/");
       } else {
@@ -103,7 +102,7 @@ export default function ResetPassword() {
             <Input
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)} // Allow user to change email
+              onChange={(e) => setEmail(e.target.value)} 
               required
             />
           </div>

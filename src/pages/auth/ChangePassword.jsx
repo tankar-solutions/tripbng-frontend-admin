@@ -14,7 +14,7 @@ export default function ChangePassword() {
     e.preventDefault();
     setLoading(true);
 
-    const token = localStorage.getItem("accessToken"); // ✅ Same token logic as Forgot Password
+    const token = localStorage.getItem("accessToken"); 
 
     if (!token) {
       toast.error("Unauthorized! Please log in first.");

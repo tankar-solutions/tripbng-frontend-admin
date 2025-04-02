@@ -50,9 +50,9 @@ export default function OtpVerify() {
         code: otpCode,
       });
   
-      console.log("OTP API Response:", response); // ✅ Debugging output
+      console.log("OTP API Response:", response);
   
-      const token = response?.data?.data?.AccessTocken; // ✅ Extract the correct token
+      const token = response?.data?.data?.AccessTocken;
   
       if (token) {
         localStorage.setItem("accessToken", token);

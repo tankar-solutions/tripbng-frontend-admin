@@ -32,6 +32,7 @@ import SupportTickets from "./pages/dashboard/support-and-assistance/support-tic
 import CreateOffers from "./pages/dashboard/offers-and-promotions/create-offers";
 import ManageReviews from "./pages/dashboard/feedback-and-reviews/manage-reviews";
 import UserFeedback from "./pages/dashboard/feedback-and-reviews/user-feedback";
+import SubAdmin from "./pages/dashboard/sub-admin/add-subadmin";
 import Corporate from "./pages/dashboard/user-management/corporate";
 import CommissionManagement from "./pages/dashboard/payment-and-transations/comission-management";
 import { Toaster } from "react-hot-toast";
@@ -133,6 +134,10 @@ const router = createBrowserRouter([
             path: "offers-and-promotions/user-feedback",
             element: <UserFeedback />,
           },
+          {
+            path : "sub-admin/add-subadmin",
+            element : <SubAdmin />,
+          }
         ],
       },
     ],

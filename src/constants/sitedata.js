@@ -125,4 +125,13 @@ export const navitems = [
       },
     ],
   },
+  {
+    label: "SubAdmin",
+    subItems: [
+      {
+        label: "Add SubAdmin",
+        href: "/dashboard/sub-admin/add-subadmin",
+      },
+    ],
+  },
 ];
