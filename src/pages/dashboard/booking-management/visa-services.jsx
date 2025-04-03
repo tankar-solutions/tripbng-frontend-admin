@@ -47,7 +47,7 @@ export default function VisaBookings() {
         }
       }
     } catch (error) {
-      console.error("Error fetching visa bookings:", error);
+      console.error("Error fetching visa booking:", error);
       toast.error("Something went wrong. Try again.");
     } finally {
       setLoading(false);
