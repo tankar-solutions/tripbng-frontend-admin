@@ -82,12 +82,12 @@ export default function VisaBookings() {
               {visaBookings.length > 0 ? (
                 visaBookings.map((booking) => (
                   <TableRow key={booking._id} className="text-sm">
-                    <TableCell>{booking.username || "N/A"}</TableCell>
-                    <TableCell>{booking.contact || "N/A"}</TableCell>
-                    <TableCell>{booking.for || "N/A"}</TableCell>
-                    <TableCell>{booking.travel_date || "N/A"}</TableCell>
-                    <TableCell>{booking.stayin_days || "N/A"}</TableCell>
-                    <TableCell>{booking.visa_type || "N/A"}</TableCell>
+                    <TableCell>{booking.username || "-"}</TableCell>
+                    <TableCell>{booking.contact || "-"}</TableCell>
+                    <TableCell>{booking.for || "-"}</TableCell>
+                    <TableCell>{booking.travel_date || "-"}</TableCell>
+                    <TableCell>{booking.stayin_days || "-"}</TableCell>
+                    <TableCell>{booking.visa_type || "-"}</TableCell>
                     <TableCell>{new Date(booking.createdAt).toLocaleDateString()}</TableCell>
                   </TableRow>
                 ))
