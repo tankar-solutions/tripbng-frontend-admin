@@ -4,7 +4,7 @@ import { Button } from "../../components/ui/button";
 import { BellDot, ChevronDown, Search } from "lucide-react";
 import toast from "react-hot-toast";
 
-export default function HeaderNav({ title }) {
+export default function HeaderNav({ title, onSearch }) {
   const [token, setToken] = useState(null);
   const [adminDetails, setAdminDetails] = useState(null);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -37,8 +37,12 @@ export default function HeaderNav({ title }) {
     navigate("/logout");
   };
 
+  const handleSearchChange = (e) => {
+    onSearch && onSearch(e.target.value); // Call parent's search handler
+  };
+
   return (
-    <div className="flex justify-between items-center px-4 py-3 bg-white shadow-md">
+    <div className="flex justify-between items-center px-4 py-3 ">
       {/* Dynamic Page Title */}
       <h1 className="text-lg font-semibold text-gray-800">{title}</h1>
 
@@ -50,6 +54,7 @@ export default function HeaderNav({ title }) {
             type="search"
             placeholder="Search anything"
             className="outline-none bg-transparent text-sm text-gray-700"
+            onChange={handleSearchChange}
           />
         </div>
 

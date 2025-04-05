@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { apiService } from "../../services/api";
 
@@ -12,31 +12,29 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-  
+    e.preventDefault();
+
     try {
-      setLoading(true); 
-  
+      setLoading(true);
+
       const response = await apiService.post("/admin/login", {
         email,
         password,
       });
-  
+
       if (response.status === 200) {
-  
         toast.success("Login successful!");
         navigate("/otp-verify", { state: { email } });
       } else {
-        toast.error("Login failed. Please check your credentials."); // Show error message
+        toast.error("Login failed. Please check your credentials.");
       }
     } catch (error) {
-      toast.error("Login failed. Please try again."); // Show error message
-      console.error("Login Error:", error); // Log detailed error for debugging
+      toast.error("Login failed. Please try again.");
+      console.error("Login Error:", error);
     } finally {
-      setLoading(false); // Set loading state back to false
+      setLoading(false);
     }
   };
-  
 
   return (
     <main className="w-full h-screen flex flex-col items-center justify-center px-4">
@@ -64,6 +62,14 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <div className="text-right mt-2">
+              <Link
+                to="/forgot-password"
+                className="text-sm text-blue-600 hover:underline"
+              >
+                Forgot Password?
+              </Link>
+            </div>
           </div>
           <Button
             type="submit"

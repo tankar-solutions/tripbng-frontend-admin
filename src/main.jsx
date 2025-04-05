@@ -13,10 +13,14 @@ import ChangePassword from "./pages/auth/ChangePassword";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import Logout from "./pages/auth/Logout";
+import ForgotPasswordLogin from "./pages/auth/ForgotPassword-login";
 
 import Customers from "./pages/dashboard/user-management/customers";
 import Agents from "./pages/dashboard/user-management/agents";
 import Admins from "./pages/dashboard/user-management/admins";
+import UserDetail from "./pages/dashboard/user-management/customers/profile";
+
+
 import Flights from "./pages/dashboard/booking-management/flights";
 import Hotels from "./pages/dashboard/booking-management/hotels";
 import Buses from "./pages/dashboard/booking-management/buses";
@@ -53,6 +57,10 @@ const router = createBrowserRouter([
           {
             path: "user-management/customers",
             element: <Customers />,
+          },
+          {
+            path: "user-management/customers/profile",
+            element: <UserDetail />,
           },
           {
             path: "user-management/corporate",
@@ -165,6 +173,10 @@ const router = createBrowserRouter([
   {
     path : "/logout",
     element : <Logout />,
+  },
+  {
+    path : "/forgot-password",
+    element : <ForgotPasswordLogin />,
   }
  
 ]);

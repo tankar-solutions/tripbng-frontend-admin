@@ -8,7 +8,7 @@ export const navitems = [
     href: "/dashboard/user-management",
     subItems: [
       {
-        label: "Customers",
+        label: "Users",
         href: "/dashboard/user-management/customers",
       },
       {

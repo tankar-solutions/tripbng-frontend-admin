@@ -1,78 +1,82 @@
-
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import HeaderNav from "../../components/layout/HeaderNav";
-import {
-  ArrowLightDown,
-  ArrowLightUp,
-  CrossBokmark,
-  Dollor,
-  FlyingFlight,
-  Verified,
-} from "../../components/icons";
+import toast from "react-hot-toast";
 
-import { Button } from "../../components/ui/button";
-import {
-  BellDot,
-  ChevronDown,
-  CircleHelp,
-  Search,
-  Settings,
-} from "lucide-react";
+export default function AdminDashboardReport() {
+  const navigate = useNavigate();
+  const [flightCount, setFlightCount] = useState(0);
 
-const DashboardSummmary = [
-  {
-    label: "Completed FLights",
-    number: 125,
-    icon: <ArrowLightUp />,
-    mainIcon: <Verified />,
-    percentage: "1.35%",
-  },
-  {
-    label: "Active Flights",
-    number: 80,
-    icon: <ArrowLightUp />,
-    mainIcon: <FlyingFlight />,
-    percentage: "3.68",
-  },
-  {
-    label: "Cancelled Flights",
-    number: 25,
-    icon: <ArrowLightDown />,
-    mainIcon: <CrossBokmark />,
-    percentage: "1.45%",
-  },
-  {
-    label: "Total Revenue",
-    number: 15000,
-    icon: <ArrowLightUp />,
-    mainIcon: <Dollor />,
-    percentage: "5.94%",
-  },
-];
+  useEffect(() => {
+    const fetchFlightCount = async () => {
+      const token = localStorage.getItem("accessToken"); // ✅ Corrected token key
 
-export default function Dashboard() {
+      if (!token) {
+        toast.error("Unauthorized! Please log in first.");
+        navigate("/login");
+        return;
+      }
+
+      try {
+        const response = await axios.get("https://api.tripbng.com/admin/getallflightbooking", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        // Log the entire response to verify the data structure
+        console.log("API Response:", response.data);
+
+        // ✅ Check if response indicates an expired token
+        if (response.data?.message === "Your Access Token is expire Please Login Again") {
+          toast.error("Session expired. Please login again.");
+          localStorage.removeItem("accessToken");
+          navigate("/login");
+          return;
+        }
+
+        if (response.status === 200 && Array.isArray(response.data?.data)) {
+          setFlightCount(response.data.data.length);  // Set the count from the response data
+        } else {
+          toast.error("No flight data found.");
+        }
+      } catch (error) {
+        console.error("Failed to fetch flight data:", error);
+        toast.error("Failed to fetch flight data.");
+      }
+    };
+
+    fetchFlightCount();
+  }, [navigate]);
+
+  const reportData = [
+    { label: "Flights", count: flightCount, icon: "✈️", path: "/dashboard/booking-management/flights" },
+    { label: "Hotels", count: 72, icon: "🏨", path: "/admin/hotels" },
+    { label: "Holidays", count: 38, icon: "🌴", path: "/admin/holidays" },
+    { label: "Visa", count: 22, icon: "🛂", path: "/admin/visa" },
+    { label: "Buses", count: 89, icon: "🚌", path: "/admin/buses" },
+  ];
+
   return (
-    <section className="flex flex-col gap-6">
-     <HeaderNav title="Dashboard" />
-      <div className="grid grid-cols-4 gap-4">
-        {DashboardSummmary.map((el) => (
+    <main className="min-h-screen bg-gray-100 p-6 space-y-6">
+      <HeaderNav title="Dashboard Report" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {reportData.map((item, index) => (
           <div
-            key={el.label}
-            className="flex justify-between items-center bg-white rounded-xl p-4"
+            key={index}
+            onClick={() => navigate(item.path)}
+            className="bg-white rounded-2xl shadow-md p-6 cursor-pointer hover:shadow-xl transition"
           >
-            <div className="flex flex-col gap-1">
-              <p className="text-xs text-neutral-400">{el.label}</p>
-              <p className="text-xl font-bold">{el.number}</p>
-              <div className="flex items-center px-2 rounded bg-orange-400/20 w-fit text-xs gap-2">
-                {el.icon}
-                <span>{el.percentage}</span>
-              </div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-3xl">{item.icon}</span>
+              <span className="text-sm text-blue-500">View All →</span>
             </div>
-            <div className="rounded-full bg-orange-400 w-fit p-2">
-              {el.mainIcon}
-            </div>
+            <h3 className="text-xl font-semibold text-gray-800 mb-1">{item.label}</h3>
+            <p className="text-4xl font-bold text-blue-600">{item.count}</p>
           </div>
         ))}
       </div>
-    </section>
+    </main>
   );
 }
