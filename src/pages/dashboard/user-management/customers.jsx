@@ -106,7 +106,22 @@ export default function Customers() {
 
   const exportPDF = () => {
     const doc = new jsPDF();
-    const tableColumn = ["#", "Name", "Email", "Mobile", "User Type", "State", "Address", "Pincode"];
+  
+
+    const now = new Date();
+    const currentDate = `${now.getDate().toString().padStart(2, "0")}/${(now.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}/${now.getFullYear()}`;
+
+    doc.setFontSize(16);
+    doc.text("User Details", 14, 15);
+    doc.setFontSize(10);
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const textWidth = doc.getTextWidth(currentDate);
+    doc.text(currentDate, pageWidth - textWidth - 14, 15); 
+  
+    // Table
+    const tableColumn = ["ID", "Name", "Email", "Mobile", "User Type", "State", "Address", "Pincode"];
     const tableRows = filteredUsers.map((u, i) => [
       i + 1,
       u.name || "-",
@@ -117,10 +132,16 @@ export default function Customers() {
       u.address || "-",
       u.pincode || "-",
     ]);
-    autoTable(doc, { head: [tableColumn], body: tableRows });
+  
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 22,
+    });
+  
     doc.save("users.pdf");
   };
-
+  
   const renderPagination = () => {
     const pages = [];
     for (let i = 1; i <= totalPages; i++) {

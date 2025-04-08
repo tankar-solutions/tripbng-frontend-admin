@@ -79,34 +79,37 @@ export default function Flights() {
   const handleNext = () => currentPage < totalPages && setCurrentPage(prev => prev + 1);
 
   const exportCSV = () => {
-    const headers = ["#", "Email", "User Type", "Booking Ref", "Date", "Time"];
-  
+    const headers = [
+      "ID", "Email", "User Type", "Booking Ref", "Flight", "Pax",
+      "Booking Status", "Travel Data", "PNR", "Date", "Time"
+    ];
+
     const rows = filteredBookings.map((b, i) => {
       const dateObj = new Date(b.createdAt);
-  
       const date = `${dateObj.getDate().toString().padStart(2, "0")}-${(dateObj.getMonth() + 1)
-        .toString()
-        .padStart(2, "0")}-${dateObj.getFullYear()}`;
-  
+        .toString().padStart(2, "0")}-${dateObj.getFullYear()}`;
       const time = `${dateObj.getHours().toString().padStart(2, "0")}:${dateObj
-        .getMinutes()
-        .toString()
-        .padStart(2, "0")}:${dateObj.getSeconds().toString().padStart(2, "0")}`;
-  
+        .getMinutes().toString().padStart(2, "0")}:${dateObj.getSeconds().toString().padStart(2, "0")}`;
+
       return [
         i + 1,
         b.SeatBookUserEmail || "-",
         b.UserType || "-",
         b.BookingRefNum || "-",
+        b.Flight || "-",
+        b.Pax || "-",
+        b.BookingStatus || "-",
+        b.TravelData || "-",
+        b.Pnr || "-",
         date,
         time,
       ];
     });
-  
+
     const csvContent =
       "\uFEFF" +
-      [headers.join(","), ...rows.map((row) => row.map((cell) => `"${cell}"`).join(","))].join("\n");
-  
+      [headers.join(","), ...rows.map(row => row.map(cell => `"${cell}"`).join(","))].join("\n");
+
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -116,11 +119,41 @@ export default function Flights() {
     link.click();
     document.body.removeChild(link);
   };
-  
+
 
   const exportPDF = () => {
-    const doc = new jsPDF();
-    const tableColumn = ["#", "Email", "User Type", "Booking Ref", "Date", "Time"];
+    const doc = new jsPDF({
+      orientation: "landscape",
+      unit: "pt",
+      format: "A4", 
+    });
+  
+    const now = new Date();
+    const currentDate = `${now.getDate().toString().padStart(2, "0")}/${(now.getMonth() + 1)
+      .toString().padStart(2, "0")}/${now.getFullYear()}`;
+  
+    doc.setFontSize(16);
+    doc.text("Flight Bookings Report", 40, 40);
+    doc.setFontSize(10);
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const dateText = `Generated on: ${currentDate}`;
+    const textWidth = doc.getTextWidth(dateText);
+    doc.text(dateText, pageWidth - textWidth - 40, 40);
+  
+    const tableColumn = [
+      "ID",
+      "Email",
+      "User Type",
+      "Booking Ref",
+      "Flight",
+      "Pax",
+      "Status",
+      "Travel Data",
+      "PNR",
+      "Date",
+      "Time",
+    ];
+  
     const tableRows = filteredBookings.map((b, i) => {
       const dateObj = new Date(b.createdAt);
       return [
@@ -128,17 +161,54 @@ export default function Flights() {
         b.SeatBookUserEmail || "-",
         b.UserType || "-",
         b.BookingRefNum || "-",
+        b.Flight || "-",
+        b.Pax || "-",
+        b.BookingStatus || "-",
+        b.TravelData || "-",
+        b.Pnr || "-",
         `${dateObj.getDate().toString().padStart(2, "0")}-${(dateObj.getMonth() + 1)
           .toString()
           .padStart(2, "0")}-${dateObj.getFullYear()}`,
         dateObj.toLocaleTimeString(),
       ];
     });
-    autoTable(doc, { head: [tableColumn], body: tableRows });
+  
+
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 60,
+      theme: "grid", 
+      styles: {
+        fontSize: 9,
+        cellPadding: 6,
+        overflow: "linebreak",
+        valign: "middle",
+        halign: "left",
+        lineColor: [0, 0, 0],
+        lineWidth: 0.1,
+      },
+      headStyles: {
+        fillColor: [41, 128, 185],
+        textColor: 255,
+        fontStyle: "bold",
+        halign: "center",
+      },
+      margin: { top: 60, left: 30, right: 30 },
+      didDrawPage: (data) => {
+        doc.setFontSize(9);
+        doc.text(
+          `Page ${doc.internal.getNumberOfPages()}`,
+          data.settings.margin.left,
+          doc.internal.pageSize.height - 10
+        );
+      },
+    });
+  
     doc.save("flight_bookings.pdf");
   };
   
-  
+
   const renderPagination = () => {
     const pages = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -190,37 +260,50 @@ export default function Flights() {
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+      <div className="bg-white rounded-xl shadow-lg overflow-auto">
         {loading ? (
           <p className="text-center p-6 text-gray-600">Loading...</p>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="min-w-[1200px]">
             <Table>
               <TableHeader>
-                <TableRow className=" text-gray-600">
+                <TableRow className="text-gray-800">
                   <TableHead className="py-4 px-10 text-sm">ID</TableHead>
                   <TableHead className="py-4 px-10 text-sm">Email</TableHead>
-                  <TableHead className="py-4 px-10  text-sm">User Type</TableHead>
+                  <TableHead className="py-4 px-10 text-sm">User Type</TableHead>
                   <TableHead className="py-4 px-10 text-sm">Booking Ref</TableHead>
+                  <TableHead className="py-4 px-10 text-sm">Flight</TableHead>
+                  <TableHead className="py-4 px-10 text-sm">Pax</TableHead>
+                  <TableHead className="py-4 px-10 text-sm">Status</TableHead>
+                  <TableHead className="py-4 px-10 text-sm">Travel Data</TableHead>
+                  <TableHead className="py-4 px-10 text-sm">PNR</TableHead>
                   <TableHead className="py-4 px-10 text-sm">Date</TableHead>
                   <TableHead className="py-4 px-10 text-sm">Time</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {currentBookings.length > 0 ? (
-                  currentBookings.map((booking, index) => (
-                    <TableRow key={booking._id}>
-                      <TableCell className="py-4 px-10">{indexOfFirst + index + 1}</TableCell>
-                      <TableCell className="py-4 px-10">{booking.SeatBookUserEmail || "-"}</TableCell>
-                      <TableCell className="py-4 px-10">{booking.UserType || "-"}</TableCell>
-                      <TableCell className="py-4 px-10">{booking.BookingRefNum || "-"}</TableCell>
-                      <TableCell className="py-4 px-10">{new Date(booking.createdAt).toLocaleDateString()}</TableCell>
-                      <TableCell className="py-4 px-10">{new Date(booking.createdAt).toLocaleTimeString()}</TableCell>
-                    </TableRow>
-                  ))
+                  currentBookings.map((booking, index) => {
+                    const createdAt = new Date(booking.createdAt);
+                    return (
+                      <TableRow key={booking._id}>
+                        <TableCell className="py-4 px-10 text-sm">{indexOfFirst + index + 1}</TableCell>
+                        <TableCell className="py-4 px-10 text-sm">{booking.SeatBookUserEmail || "-"}</TableCell>
+                        <TableCell className="py-4 px-10 text-sm">{booking.UserType || "-"}</TableCell>
+                        <TableCell className="py-4 px-10 text-sm">{booking.BookingRefNum || "-"}</TableCell>
+                        <TableCell className="py-4 px-10 text-sm">{booking.Flight || "-"}</TableCell>
+                        <TableCell className="py-4 px-10 text-sm">{booking.Pax || "-"}</TableCell>
+                        <TableCell className="py-4 px-10 text-sm">{booking.BookingStatus || "-"}</TableCell>
+                        <TableCell className="py-4 px-10 text-sm">{booking.TravelData || "-"}</TableCell>
+                        <TableCell className="py-4 px-10 text-sm">{booking.Pnr || "-"}</TableCell>
+                        <TableCell className="py-4 px-10 text-sm">{createdAt.toLocaleDateString()}</TableCell>
+                        <TableCell className="py-4 px-10 text-sm">{createdAt.toLocaleTimeString()}</TableCell>
+                      </TableRow>
+                    );
+                  })
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center text-gray-500 py-6">
+                    <TableCell colSpan={11} className="text-center text-gray-500 py-6">
                       No flight bookings found.
                     </TableCell>
                   </TableRow>

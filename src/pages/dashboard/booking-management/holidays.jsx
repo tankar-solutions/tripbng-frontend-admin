@@ -135,10 +135,39 @@ export default function Holidays() {
     document.body.removeChild(link);
   };
   
-
+  
   const exportPDF = () => {
-    const doc = new jsPDF();
-    const tableColumn = ["Index", "Username", "Contact", "From City", "To City", "Travel Date", "Return Date", "Days", "Nights"];
+    const doc = new jsPDF({
+      orientation: "landscape",
+      format: "a4",
+      unit: "mm",
+    });
+  
+    const now = new Date();
+    const currentDate = `${now.getDate().toString().padStart(2, "0")}/${(now.getMonth() + 1)
+      .toString().padStart(2, "0")}/${now.getFullYear()}`;
+  
+    
+    doc.setFontSize(16);
+    doc.text("Holiday Bookings Report", 14, 20);
+    doc.setFontSize(10);
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const dateText = `Generated on: ${currentDate}`;
+    const textWidth = doc.getTextWidth(dateText);
+    doc.text(dateText, pageWidth - textWidth - 14, 20);
+  
+    const tableColumn = [
+      "ID",
+      "Username",
+      "Contact",
+      "From City",
+      "To City",
+      "Travel Date",
+      "Return Date",
+      "Days",
+      "Nights",
+    ];
+  
     const tableRows = holidayBookings.map((booking, index) => [
       index + 1,
       booking.username || "-",
@@ -150,13 +179,50 @@ export default function Holidays() {
       booking.days || "-",
       booking.nights || "-",
     ]);
+  
     autoTable(doc, {
       head: [tableColumn],
       body: tableRows,
+      startY: 30, 
+      theme: "grid",
+      styles: {
+        fontSize: 9,
+        cellPadding: 3,
+        overflow: "linebreak",
+        halign: "left",
+        valign: "middle",
+        lineColor: [0, 0, 0],
+        lineWidth: 0.1,
+      },
+      headStyles: {
+        fillColor: [41, 128, 185],
+        textColor: 255,
+        fontStyle: "bold",
+        halign: "center",
+      },
+      columnStyles: {
+        0: { cellWidth: 12 },   
+        1: { cellWidth: 35 },   
+        2: { cellWidth: 30 }, 
+        3: { cellWidth: 30 },   
+        4: { cellWidth: 30 },  
+        5: { cellWidth: 35 },   
+        6: { cellWidth: 35 },   
+        7: { cellWidth: 18 },   
+        8: { cellWidth: 18 },   
+      },
+      margin: { left: 14, right: 14 },
+      didDrawPage: (data) => {
+        const pageHeight = doc.internal.pageSize.height;
+        doc.setFontSize(9);
+        doc.text(`Page ${doc.internal.getNumberOfPages()}`, data.settings.margin.left, pageHeight - 5);
+      },
     });
+  
     doc.save("holiday_bookings.pdf");
   };
-
+  
+  
   const renderPagination = () => {
     const pages = [];
 

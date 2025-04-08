@@ -14,6 +14,7 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import Logout from "./pages/auth/Logout";
 import ForgotPasswordLogin from "./pages/auth/ForgotPassword-login";
+import NewPassword from "./pages/auth/NewPassword";
 
 import Customers from "./pages/dashboard/user-management/customers";
 import Agents from "./pages/dashboard/user-management/agents";
@@ -177,6 +178,10 @@ const router = createBrowserRouter([
   {
     path : "/forgot-password",
     element : <ForgotPasswordLogin />,
+  },
+  {
+    path : "/new-password",
+    element :<NewPassword />,
   }
  
 ]);

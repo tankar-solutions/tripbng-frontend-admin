@@ -142,14 +142,44 @@ export default function VisaBookings() {
   
   
   const exportPDF = () => {
-    const doc = new jsPDF();
-    const headers = ["#", "Username", "Contact", "Destination", "Travel Date", "Stay Days", "Visa Type", "Created At"];
+    const doc = new jsPDF({
+      orientation: "landscape", 
+      unit: "mm",
+      format: "a4",
+    });
+  
+    const now = new Date();
+    const currentDate = `${now.getDate().toString().padStart(2, "0")}/${(now.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}/${now.getFullYear()}`;
+  
+
+    doc.setFontSize(16);
+    doc.text("Visa Bookings Report", 14, 15);
+    doc.setFontSize(10);
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const dateText = `Generated on: ${currentDate}`;
+    const textWidth = doc.getTextWidth(dateText);
+    doc.text(dateText, pageWidth - textWidth - 14,15);
+  
+  
+    const headers = [
+      "ID",
+      "Username",
+      "Contact",
+      "Destination",
+      "Travel Date",
+      "Stay Days",
+      "Visa Type",
+      "Created At",
+    ];
+  
     const rows = filteredBookings.map((b, i) => {
       const createdAt = new Date(b.createdAt);
       const formattedDate = `${createdAt.getFullYear()}-${(createdAt.getMonth() + 1)
         .toString()
         .padStart(2, "0")}-${createdAt.getDate().toString().padStart(2, "0")}`;
-
+  
       return [
         i + 1,
         b.username || "-",
@@ -161,9 +191,43 @@ export default function VisaBookings() {
         formattedDate,
       ];
     });
-    autoTable(doc, { head: [headers], body: rows });
+  
+    autoTable(doc, {
+      head: [headers],
+      body: rows,
+      startY: 22,
+      theme: "grid", 
+      styles: {
+        fontSize: 9,
+        cellPadding: 3,
+        overflow: "linebreak",
+        halign: "left",
+        valign: "middle",
+        lineColor: [0, 0, 0],
+        lineWidth: 0.1,
+      },
+      headStyles: {
+        fillColor: [41, 128, 185],
+        textColor: 255,
+        fontStyle: "bold",
+        halign: "center",
+      },
+      columnStyles: {
+        0: { cellWidth: 12 },  
+        1: { cellWidth: 35 },  
+        2: { cellWidth: 35 },  
+        3: { cellWidth: 35 },  
+        4: { cellWidth: 30 },  
+        5: { cellWidth: 20 },  
+        6: { cellWidth: 25 },  
+        7: { cellWidth: 30 },  
+      },
+      margin: { left: 14, right: 14 },
+    });
+  
     doc.save("visa_bookings.pdf");
   };
+  
 
   const renderPagination = () => {
     const pages = [];
