@@ -309,7 +309,7 @@ export default function Profile() {
 
                         <div className="flex justify-between items-start p-4">
                             <div className="flex gap-3">
-                            <FaWhatsapp className="text-2xl text-green-600 mt-1" />
+                            <FaWhatsapp className="text-2xl text-black mt-1" />
                             <div>
                                 <p className="font-medium text-lg">WhatsApp Message</p>
                                 <p className="text-m text-black">

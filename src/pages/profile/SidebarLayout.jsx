@@ -1,4 +1,4 @@
-// components/SidebarLayout.jsx
+import { Link} from "react-router-dom";
 import { Outlet, NavLink } from "react-router-dom";
 import {
   User,
@@ -18,11 +18,12 @@ export default function SidebarLayout() {
   return (
     <div className="flex bg-gray-100  min-h-screen text-gray-800">
       <aside className="bg-white shadow-xl rounded-xl p-6 flex flex-col gap-6 border-r border-gray-200 w-auto min-w-[300px] h-[600px]">
-        <img
-          src="/logo.png"
-          alt="TripBooknGo Logo"
-          className="h-12 w-auto object-contain"
-        />
+        <Link
+                  to="/dashboard"
+                  className="flex items-center ps-2.5 mb-5 justify-center w-full"
+                >
+                  <img src="/logo.png" alt="Logo" className="h-10 w-auto" />
+                </Link>
         <nav className="flex flex-col gap-2 text-[18px] font-medium">
           {menuItems.map((item) => (
             <NavLink
