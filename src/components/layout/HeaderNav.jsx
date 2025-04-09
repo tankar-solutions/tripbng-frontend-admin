@@ -58,7 +58,6 @@ export default function HeaderNav({ title, onSearch }) {
           />
         </div>
 
-        {/* Notification Button */}
         <Button
           size="icon"
           className="bg-white text-neutral-700 p-2 hover:bg-gray-100 rounded-full"
@@ -90,6 +89,15 @@ export default function HeaderNav({ title, onSearch }) {
           {isDropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200 z-50 transition-all duration-200 ease-in-out">
               <ul className="flex flex-col">
+              <li
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => {
+                    navigate("/profile");
+                    setDropdownOpen(false);
+                  }}
+                >
+                  Profile
+                </li>
                 <li
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                   onClick={() => {

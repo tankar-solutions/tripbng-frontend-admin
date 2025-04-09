@@ -1,23 +1,40 @@
 export const navitems = [
   {
-    label :"Dashboard",
-    href : "/dashboard",
+    label: "Dashboard",
+    href: "/dashboard",
   },
   {
     label: "User Management",
-    href: "/dashboard/user-management",
     subItems: [
       {
         label: "Users",
         href: "/dashboard/user-management/customers",
       },
       {
-        label: "Corporate",
-        href: "/dashboard/user-management/corporate",
+        label: "Corporates",
+        subItems: [
+          {
+            label: "Approved Corporates",
+            href: "/dashboard/user-management/corporates/approved",
+          },
+          {
+            label: "Unapproved Corporates",
+            href: "/dashboard/user-management/corporates/unapproved",
+          },
+        ],
       },
       {
         label: "Agents",
-        href: "/dashboard/user-management/agents",
+        subItems: [
+          {
+            label: "Approved Agents",
+            href: "/dashboard/user-management/agents/approved",
+          },
+          {
+            label: "Unapproved Agents",
+            href: "/dashboard/user-management/agents/unapproved",
+          },
+        ],
       },
       {
         label: "Admins",
@@ -27,7 +44,6 @@ export const navitems = [
   },
   {
     label: "Booking Management",
-    href: "/dashboard/booking-management",
     subItems: [
       {
         label: "Flights",
@@ -53,7 +69,6 @@ export const navitems = [
   },
   {
     label: "Report & Analytics",
-    href: "/dashboard/report-and-analytics",
     subItems: [
       {
         label: "Revenue Report",
@@ -75,10 +90,9 @@ export const navitems = [
   },
   {
     label: "Payments & Transactions",
-    href: "/dashboard/payments-and-transactions",
     subItems: [
       {
-        label: "Transation Monitoring",
+        label: "Transaction Monitoring",
         href: "/dashboard/payments-and-transactions/transation-monitoring",
       },
       {
@@ -93,7 +107,6 @@ export const navitems = [
   },
   {
     label: "Support & Assistance",
-    href: "/dashboard/support-and-assistance",
     subItems: [
       {
         label: "Support Tickets",
@@ -103,7 +116,6 @@ export const navitems = [
   },
   {
     label: "Offers & Promotions",
-    href: "/dashboard/offers-and-promotions",
     subItems: [
       {
         label: "Create Offers",
@@ -113,7 +125,6 @@ export const navitems = [
   },
   {
     label: "Feedback & Reviews",
-    href: "/dashboard/offers-and-promotions/feedback-and-reviews",
     subItems: [
       {
         label: "Manage Reviews",

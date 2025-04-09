@@ -97,7 +97,7 @@ export default function Customers() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", "users.csv");
+    link.setAttribute("download", "Users.csv");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -112,6 +112,7 @@ export default function Customers() {
     const currentDate = `${now.getDate().toString().padStart(2, "0")}/${(now.getMonth() + 1)
       .toString()
       .padStart(2, "0")}/${now.getFullYear()}`;
+  
 
     doc.setFontSize(16);
     doc.text("User Details", 14, 15);
@@ -121,7 +122,7 @@ export default function Customers() {
     doc.text(currentDate, pageWidth - textWidth - 14, 15); 
   
     // Table
-    const tableColumn = ["ID", "Name", "Email", "Mobile", "User Type", "State", "Address", "Pincode"];
+    const tableColumn = ["#", "Name", "Email", "Mobile", "User Type", "State", "Address", "Pincode"];
     const tableRows = filteredUsers.map((u, i) => [
       i + 1,
       u.name || "-",
@@ -139,7 +140,7 @@ export default function Customers() {
       startY: 22,
     });
   
-    doc.save("users.pdf");
+    doc.save("Users.pdf");
   };
   
   const renderPagination = () => {
@@ -214,7 +215,11 @@ export default function Customers() {
               <TableBody>
                 {currentUsers.length > 0 ? (
                   currentUsers.map((u, index) => (
-                    <TableRow key={u._id}>
+                    <TableRow
+                      key={u._id}
+                      className="cursor-pointer hover:bg-gray-100"
+                      onClick={() => navigate("/dashboard/user-management/customers/user-details", { state: { user: u } })}
+                    >
                       <TableCell className="py-4 px-10">{indexOfFirst + index + 1}</TableCell>
                       <TableCell className="py-4 px-10">{u.name || "-"}</TableCell>
                       <TableCell className="py-4 px-10">{u.email || "-"}</TableCell>
@@ -224,6 +229,7 @@ export default function Customers() {
                       <TableCell className="py-4 px-10">{u.address || "-"}</TableCell>
                       <TableCell className="py-4 px-10">{u.pincode || "-"}</TableCell>
                     </TableRow>
+
                   ))
                 ) : (
                   <TableRow>

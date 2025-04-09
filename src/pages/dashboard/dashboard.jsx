@@ -187,7 +187,6 @@ function DashboardCard({ label, count, icon, onClick }) {
       <h3 className="text-xl font-semibold text-gray-800 mb-1">{label}</h3>
       <p className="text-4xl font-bold text-orange-500">
         {count}
-        <br />
         <span className="text-sm text-gray-500 font-normal">Total bookings</span>
       </p>
     </div>
