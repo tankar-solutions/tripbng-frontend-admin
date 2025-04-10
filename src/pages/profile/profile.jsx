@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import { Pencil } from "lucide-react";
 import { HiDocumentText } from 'react-icons/hi';
 import { FaHotel, FaPlaneDeparture, FaBus, FaUmbrellaBeach, FaPassport, FaShieldAlt } from 'react-icons/fa';
@@ -35,17 +35,12 @@ export default function Profile() {
     address: "SURVEY NO 64/1 NEAR DHARESWAR COTTONS, C/O KHAJOOORA HOTEL AND...",
   });
 
-  const loginData = [
-    { time: "08-04-2025 15:46", ip: "182.65.79.0", browser: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)..." },
-    { time: "08-04-2025 15:25", ip: "182.65.79.0", browser: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)..." },
-    { time: "08-04-2025 14:50", ip: "43.254.176.68", browser: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)..." },
-    { time: "08-04-2025 13:51", ip: "43.254.176.68", browser: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)..." },
-    { time: "08-04-2025 12:20", ip: "182.65.79.0", browser: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)..." },
-    { time: "08-04-2025 11:51", ip: "43.254.176.68", browser: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)..." },
-    { time: "07-04-2025 15:44", ip: "43.254.176.68", browser: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)..." },
-    { time: "07-04-2025 12:18", ip: "43.254.176.68", browser: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)..." },
-    { time: "07-04-2025 10:15", ip: "182.65.79.0", browser: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)..." },
-  ];
+  const [loginData, setLoginData] = useState([]);
+
+  useEffect(() => {
+    const storedLogins = JSON.parse(localStorage.getItem("loginData")) || [];
+    setLoginData(storedLogins.slice(0, 10));
+  }, []);
 
   const [contactDetails, setContactDetails] = useState([
     { icon: <FaHotel className="text-blue-600 w-5 h-5" />, label: 'Hotel', phone: '91 9904956474', email: 'info@tripbookngo.com' },
@@ -436,33 +431,47 @@ export default function Profile() {
       )}
                 </div>
 
-        <div className="bg-white rounded-xl shadow-md p-6 max-w-7xl mx-auto mt-8 relative">
+                <div className="bg-white rounded-xl shadow-md p-6 max-w-7xl mx-auto mt-8 relative">
             <h2 className="text-xl font-semibold mb-1">Last Login Session</h2>
             <p className="text-sm text-black mb-4">
-                Check your last 10 login history of your account. If you find any suspicious login activity kindly change your account password.
+              Check your last 10 login history of your account. If you find any
+              suspicious login activity kindly change your account password.
             </p>
 
             <div className="overflow-x-auto">
-                <table className="min-w-full text-left border border-gray-200">
+              <table className="min-w-full text-left border border-gray-200">
                 <thead className="bg-blue-100 text-black">
-                    <tr>
+                  <tr>
                     <th className="py-2 px-4 border border-gray-200">Login Time</th>
                     <th className="py-2 px-4 border border-gray-200">IP Address</th>
                     <th className="py-2 px-4 border border-gray-200">Browser Details</th>
-                    </tr>
+                  </tr>
                 </thead>
                 <tbody>
-                    {loginData.map((item, index) => (
-                    <tr key={index} className="hover:bg-gray-50">
+                  {loginData.length > 0 ? (
+                    loginData.map((item, index) => (
+                      <tr key={index} className="hover:bg-gray-50">
                         <td className="py-2 px-4 border border-gray-200">{item.time}</td>
                         <td className="py-2 px-4 border border-gray-200">{item.ip}</td>
-                        <td className="py-2 px-4 border border-gray-200 truncate max-w-xs">{item.browser}</td>
+                        <td className="py-2 px-4 border border-gray-200 truncate max-w-xs">
+                          {item.browser}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        className="py-4 px-4 border border-gray-200 text-center text-gray-500"
+                        colSpan="3"
+                      >
+                        No login history found.
+                      </td>
                     </tr>
-                    ))}
+                  )}
                 </tbody>
-                </table>
+              </table>
             </div>
-            </div>
+          </div>
 
 
       </main>

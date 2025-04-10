@@ -37,25 +37,51 @@ export default function OtpVerify() {
     e.preventDefault();
     setLoading(true);
     const otpCode = otp.join("");
-  
+
     if (otpCode.length !== 6) {
       toast.error("Please enter a valid 6-digit OTP");
       setLoading(false);
       return;
     }
-  
+
     try {
       const response = await apiService.post("/admin/vfyOTPLogin", {
         email,
         code: otpCode,
       });
-  
+
       console.log("OTP API Response:", response);
-  
+
       const token = response?.data?.data?.AccessTocken;
-  
+
       if (token) {
         localStorage.setItem("accessToken", token);
+
+        // Get current date and time
+        const now = new Date();
+        const time = now.toLocaleString("en-GB", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+
+        // Get browser info
+        const browser = navigator.userAgent;
+
+        // Get IP info using public API
+        const ipResponse = await fetch("https://ipinfo.io/json?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U2MzhkMWRjOWU3ODlhNzI5OGFjNmUiLCJ1c2VybmFtZSI6Im5pZGhpIiwiZW1haWwiOiJ0aHVtbWFybmlkaGk3QGdtYWlsLmNvbSIsInR5cGUiOiJBZG1pbiIsImlhdCI6MTc0NDI1OTgzOSwiZXhwIjoxNzQ1NTU1ODM5fQ.V3WUmakTn1biJsnA3cipDu_woT8jZHSyuclWpUkUSsk");
+        const ipData = await ipResponse.json();
+        const ip = ipData.ip;
+
+        // Store login record
+        const loginEntry = { time, ip, browser };
+        const previousLogins = JSON.parse(localStorage.getItem("loginData")) || [];
+        const updatedLogins = [loginEntry, ...previousLogins.slice(0, 19)];
+        localStorage.setItem("loginData", JSON.stringify(updatedLogins));
+
         toast.success("OTP Verified Successfully!");
         navigate("/dashboard");
       } else {
@@ -68,8 +94,6 @@ export default function OtpVerify() {
       setLoading(false);
     }
   };
-  
-  
 
   return (
     <main className="w-full h-screen flex flex-col items-center justify-center px-4">

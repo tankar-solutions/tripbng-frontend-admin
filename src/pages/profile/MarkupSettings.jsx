@@ -56,7 +56,6 @@ const MarkupSettings = () => {
         <h2 className="text-2xl font-semibold mb-5">Master Login Markup Settings</h2>
 
 
-        {/* Markup Buttons */}
         <div className="flex space-x-2 mb-10">
             <button className="px-5 py-3 bg-blue-900 text-white rounded-lg text-[16px] font-semibold">
             B2B Markup
@@ -85,7 +84,6 @@ const MarkupSettings = () => {
           </button>
         </div>
 
-        {/* Profile Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-left border border-gray-200 text-[16px]">
             <thead className="bg-gray-100 text-gray-700">
@@ -162,27 +160,26 @@ const MarkupSettings = () => {
                 >
                 ✖
                 </button>
-            {/* Sidebar */}
-            <div className="w-64 bg-gray-100 p-4 overflow-y-auto">
-                <h3 className="text-lg font-bold mb-4">Default Profile</h3>
-                <ul className="space-y-2">
-                {["Airlines", "Holidays", "Hotel", "Visa", "Bus", "Insurance"].map(
-                    (item) => (
-                    <li
-                        key={item}
-                        onClick={() => setSelectedTab(item)}
-                        className={`cursor-pointer px-3 py-2 rounded transition ${
-                        selectedTab === item
-                            ? "bg-gray-300 text-black"
-                            : "hover:bg-gray-200"
-                        }`}
-                    >
-                        {item}
-                    </li>
-                    )
-                )}
-                </ul>
-            </div>
+                <div className="w-64 bg-gray-100 p-4 overflow-y-auto">
+                    <h3 className="text-lg font-bold mb-4">Default Profile</h3>
+                    <ul className="space-y-2">
+                    {["Airlines", "Holidays", "Hotel", "Visa", "Bus", "Insurance"].map(
+                        (item) => (
+                        <li
+                            key={item}
+                            onClick={() => setSelectedTab(item)}
+                            className={`cursor-pointer px-3 py-2 rounded transition ${
+                            selectedTab === item
+                                ? "bg-gray-300 text-black"
+                                : "hover:bg-gray-200"
+                            }`}
+                        >
+                            {item}
+                        </li>
+                        )
+                    )}
+                    </ul>
+                </div>
 
                 <div className="flex-1 p-16 overflow-y-auto">
 
@@ -205,7 +202,6 @@ const MarkupSettings = () => {
                                 />
                                 <div className="relative w-full max-w-[250px]">
                                 <select className="border px-3 py-2 rounded-lg w-full truncate">
-                                    <option></option>
                                     <option>Flat for Full Booking</option>
                                     <option>Flat Per Pax</option>
                                     <option>Flat Per Pax Per Segment</option>
@@ -232,7 +228,6 @@ const MarkupSettings = () => {
                                 <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
                                 <div className="relative w-full max-w-[250px]">
                                 <select className="border px-3 py-2 rounded-lg w-full truncate">
-                                    <option></option>
                                     <option>Flat for Full Booking</option>
                                     <option>Flat Per Pax</option>
                                     <option>Percentage(%) Per Pax</option>
@@ -257,7 +252,6 @@ const MarkupSettings = () => {
                                 <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
                                 <div className="relative w-full max-w-[250px]">
                                 <select className="border px-3 py-2 rounded-lg w-full truncate">
-                                    <option></option>
                                     <option>Flat for Full Amendment</option>
                                     <option>Flat Per Pax</option>
                                     <option>Percentage(%) for Full Amendment</option>
@@ -283,7 +277,6 @@ const MarkupSettings = () => {
                                 <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
                                 <div className="relative w-full max-w-[250px]">
                                 <select className="border px-3 py-2 rounded-lg w-full truncate">
-                                    <option></option>
                                     <option>Flat for Full Amendment</option>
                                     <option>Flat Per Pax</option>
                                     <option>Percentage(%) for Full Amendment</option>
@@ -306,7 +299,6 @@ const MarkupSettings = () => {
                                 <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
                                 <div className="relative w-full max-w-[250px]">
                                 <select className="border px-3 py-2 rounded-lg w-full truncate">
-                                    <option></option>
                                     <option>Flat for Full Booking</option>
                                     <option>Flat Per Pax</option>
                                     <option>Flat Per Pax Per Segment</option>
@@ -335,7 +327,6 @@ const MarkupSettings = () => {
                             <div className="flex items-center gap-2">
                                 <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
                                 <select className="border px-3 py-2 rounded-lg flex-1">
-                                <option></option>
                                 <option>Percentage(%) for Full Booking</option>
                                 <option>Percentage(%) Per Pax</option>
                                 </select>
@@ -351,7 +342,6 @@ const MarkupSettings = () => {
                             <label className="block mb-2 text-m font-medium">Destination Name*</label>
                             <div className="flex items-center gap-2">
                             <select className="border px-24 py-2 rounded-lg flex-1">
-                                <option></option>
                                 <option>Abu Dhabi</option>
                                 <option>Almaty</option>
                                 <option>Andaman</option>
@@ -369,7 +359,6 @@ const MarkupSettings = () => {
                             <div className="flex items-center gap-2">
                             <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
                             <select className="border px-3 py-2 rounded flex-1">
-                                <option></option>
                                 <option>Percentage(%) for Full Booking</option>
                                 <option>Percentage(%) Per Pax</option>
                             </select>
@@ -392,7 +381,6 @@ const MarkupSettings = () => {
                             <div className="flex items-center gap-2">
                                 <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
                                 <select className="border px-3 py-2 rounded-lg flex-1">
-                                <option></option>
                                 <option>Flat fot Full Booking</option>
                                 <option>Flat per Pax</option>
                                 <option>Percentage(%) for Full Booking</option>
@@ -417,7 +405,6 @@ const MarkupSettings = () => {
                             <div className="flex items-center gap-2">
                                 <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
                                 <select className="border px-3 py-2 rounded-lg flex-1">
-                                <option></option>
                                 <option>Percentage(%) for Full Booking</option>
                                 <option>Percentage(%) Per Pax</option>
                                 </select>
@@ -433,7 +420,7 @@ const MarkupSettings = () => {
                             <label className="block mb-2 text-m font-medium">Destination*</label>
                             <div className="flex items-center gap-2">
                             <select className="border px-24 py-2 rounded-lg flex-1">
-                                <option></option>
+
                                 <option>Abu Dhabi</option>
                                 <option>Almaty</option>
                                 <option>Andaman</option>
@@ -509,10 +496,7 @@ const MarkupSettings = () => {
                         <button className="bg-blue-900 text-white px-10 py-2 rounded-lg mb-6">Save</button>
                         
                     </div>
-                    )}
-
-
-                    
+                    )} 
                 </div>
                 </div>
             </div>
