@@ -61,7 +61,6 @@ export default function Holidays() {
     fetchHolidayBookings();
   }, []);
 
-  // Search and Filter Logic
   const filteredBookings = searchTerm.trim()
     ? holidayBookings.filter((booking) => {
         const term = searchTerm.toLowerCase();
@@ -74,7 +73,6 @@ export default function Holidays() {
       })
     : holidayBookings;
 
-  // Pagination using filtered bookings
   const indexOfLast = currentPage * bookingsPerPage;
   const indexOfFirst = indexOfLast - bookingsPerPage;
   const currentBookings = filteredBookings.slice(indexOfFirst, indexOfLast);
@@ -258,16 +256,15 @@ export default function Holidays() {
   };
 
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-6 px-8">
       <HeaderNav
         title="Holidays"
         onSearch={(value) => {
           setSearchTerm(value);
-          setCurrentPage(1); // Reset to page 1 on search
+          setCurrentPage(1);
         }}
       />
 
-      {/* Export Buttons */}
       <div className="flex justify-end gap-3 px-4">
         <button
           onClick={exportCSV}

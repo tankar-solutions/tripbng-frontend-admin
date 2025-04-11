@@ -54,7 +54,7 @@ const refunds = [
 
 export default function RefundManagement() {
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-6 px-8">
       <HeaderNav title="Refund-Management" />
         <div className="flex items-end justify-end">
         <Button className="mb-2 w-1/6">Refresh Transactions</Button></div>

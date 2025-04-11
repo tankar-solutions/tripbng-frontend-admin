@@ -93,21 +93,22 @@ export default function Profile() {
 
   return (
     <div className="flex bg-gray-100 min-h-screen text-black">
-      <main className="flex-1 text-[17px]">
-        <div className="bg-white rounded-xl shadow-lg p-10 max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-10">
-            <div className="flex items-center gap-5">
-              <div className="w-20 h-20 bg-blue-600 text-white text-3xl font-bold rounded-full flex items-center justify-center">
-                KL
-              </div>
-              <div>
-                <h2 className="text-3xl font-semibold">{formData.agencyName}</h2>
-                <p className="text-black text-base mt-1">
-                  Account Code: <span className="font-semibold text-black">18425</span>
-                </p>
-              </div>
-            </div>
+  <main className="flex-1 text-[17px] p-4 sm:p-6 md:p-8 lg:p-10">
+    <div className="bg-white rounded-xl shadow-lg sm:p-6 md:p-8  max-w-7xl mx-auto">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-10 gap-4 sm:gap-6">
+        <div className="flex items-center gap-4 sm:gap-5">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-blue-600 text-white text-2xl sm:text-3xl font-bold rounded-full flex items-center justify-center">
+            KL
           </div>
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-semibold">{formData.agencyName}</h2>
+            <p className="text-black text-sm sm:text-base mt-1">
+              Account Code: <span className="font-semibold">18425</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
 
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-2xl font-semibold border-b pb-2 w-full">
@@ -179,7 +180,7 @@ export default function Profile() {
           ) : (
             <button
               onClick={handleContactSave}
-              className="absolute top-6 right-6 bg-blue-700 text-white px-4 py-2 text-sm rounded-lg hover:bg-blue-800"
+              className="absolute top-6 right-6 bg-blue-700 text-white px-4 py-3 text-sm rounded-lg hover:bg-blue-800"
             >
               Save Contact Info
             </button>
@@ -202,7 +203,8 @@ export default function Profile() {
                     />
                   ) : (
                     <p className="text-black mt-1">
-                      Contact Number: <strong>{item.phone}</strong>
+                      Contact Number:<br />
+                       {item.phone}
                     </p>
                   )}
                 </div>
@@ -231,7 +233,6 @@ export default function Profile() {
             <p className="text-black mb-4">Modify/manage your account login credentials.</p>
 
             <div className="space-y-4">
-                {/* Mobile Number */}
                 <div className="flex justify-between items-center border-b pb-2">
                 <div>
                     <p className="text-black text-sm">Mobile Number</p>
@@ -240,7 +241,6 @@ export default function Profile() {
                 <button className="text-blue-600 font-medium hover:underline">Change Number?</button>
                 </div>
 
-                {/* Email ID */}
                 <div className="flex justify-between items-center border-b pb-2">
                 <div>
                     <p className="text-black text-sm">Email ID</p>
@@ -249,7 +249,6 @@ export default function Profile() {
                 <button className="text-blue-600 font-medium hover:underline">Change Email?</button>
                 </div>
 
-                {/* Password */}
                 <div className="flex justify-between items-center">
                 <div>
                     <p className="text-black text-sm">Password</p>
@@ -320,28 +319,28 @@ export default function Profile() {
             </div>
 
             <div className="bg-white rounded-xl shadow-md p-6 max-w-7xl mx-auto mt-8 relative">
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <h2 className="text-xl font-semibold text-gray-800">Bank Details</h2>
-          <p className="text-sm text-gray-500">Provide your bank details to make offline transactions like withdraw wallet balance.</p>
-        </div>
-        <button
-          onClick={handleAddClick}
-          className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md text-sm font-medium"
-        >
-          + Add
-        </button>
-      </div>
+              <div className="flex justify-between items-center mb-4">
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-800">Bank Details</h2>
+                  <p className="text-m text-gray-500">Provide your bank details to make offline transactions like withdraw wallet balance.</p>
+                </div>
+                <button
+                  onClick={handleAddClick}
+                  className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md text-sm font-medium"
+                >
+                  + Add
+                </button>
+              </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full border divide-y divide-gray-200">
-          <thead className="bg-blue-50">
+          <div className="overflow-x-auto">
+            <table className="min-w-full border divide-y divide-gray-200">
+              <thead className="bg-blue-50">
             <tr>
-              <th className="px-4 py-2 text-left text-sm font-semibold text-black">Bank Name</th>
-              <th className="px-4 py-2 text-left text-sm font-semibold text-black">Branch Name</th>
-              <th className="px-4 py-2 text-left text-sm font-semibold text-black">Account Number</th>
-              <th className="px-4 py-2 text-left text-sm font-semibold text-black">IFSC Code</th>
-              <th className="px-4 py-2 text-left text-sm font-semibold text-black">Account Holder Name</th>
+              <th className="px-4 py-2 text-left text-mm font-semibold text-black">Bank Name</th>
+              <th className="px-4 py-2 text-left text-m font-semibold text-black">Branch Name</th>
+              <th className="px-4 py-2 text-left text-m font-semibold text-black">Account Number</th>
+              <th className="px-4 py-2 text-left text-m font-semibold text-black">IFSC Code</th>
+              <th className="px-4 py-2 text-left text-m font-semibold text-black">Account Holder Name</th>
             </tr>
           </thead>
           <tbody>
@@ -362,7 +361,7 @@ export default function Profile() {
                     <svg className="w-12 h-12 text-black" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
-                    <p className="text-sm">No Data</p>
+                    <p className="text-m">No Data</p>
                   </div>
                 </td>
               </tr>
@@ -371,69 +370,69 @@ export default function Profile() {
         </table>
       </div>
 
-      {/* FORM POPUP */}
-      {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold mb-4">Add Bank Details</h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input
-                type="text"
-                name="bankName"
-                value={bankForm.bankName}
-                onChange={handleBankFormChange}
-                placeholder="Bank Name"
-                className="border p-2 rounded"
-              />
-              <input
-                type="text"
-                name="branchName"
-                value={bankForm.branchName}
-                onChange={handleBankFormChange}
-                placeholder="Branch Name"
-                className="border p-2 rounded"
-              />
-              <input
-                type="text"
-                name="accountNumber"
-                value={bankForm.accountNumber}
-                onChange={handleBankFormChange}
-                placeholder="Account Number"
-                className="border p-2 rounded"
-              />
-              <input
-                type="text"
-                name="ifscCode"
-                value={bankForm.ifscCode}
-                onChange={handleBankFormChange}
-                placeholder="IFSC Code"
-                className="border p-2 rounded"
-              />
-              <input
-                type="text"
-                name="accountHolderName"
-                value={bankForm.accountHolderName}
-                onChange={handleBankFormChange}
-                placeholder="Account Holder Name"
-                className="border p-2 rounded"
-              />
-              <div className="col-span-2 flex gap-4 mt-2">
-                <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
-                  Save
-                </button>
-                <button type="button" onClick={handleCloseForm} className="bg-gray-300 px-4 py-2 rounded">
-                  Cancel
-                </button>
+          {showForm && (
+            <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 px-4">
+              <div className="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md sm:max-w-lg md:max-w-xl">
+                <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-center">Add Bank Details</h3>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <input
+                    type="text"
+                    name="bankName"
+                    value={bankForm.bankName}
+                    onChange={handleBankFormChange}
+                    placeholder="Bank Name"
+                    className="border p-3 rounded w-full"
+                  />
+                  <input
+                    type="text"
+                    name="branchName"
+                    value={bankForm.branchName}
+                    onChange={handleBankFormChange}
+                    placeholder="Branch Name"
+                    className="border p-3 rounded w-full"
+                  />
+                  <input
+                    type="text"
+                    name="accountNumber"
+                    value={bankForm.accountNumber}
+                    onChange={handleBankFormChange}
+                    placeholder="Account Number"
+                    className="border p-3 rounded w-full"
+                  />
+                  <input
+                    type="text"
+                    name="ifscCode"
+                    value={bankForm.ifscCode}
+                    onChange={handleBankFormChange}
+                    placeholder="IFSC Code"
+                    className="border p-3 rounded w-full"
+                  />
+                  <input
+                    type="text"
+                    name="accountHolderName"
+                    value={bankForm.accountHolderName}
+                    onChange={handleBankFormChange}
+                    placeholder="Account Holder Name"
+                    className="border p-3 rounded w-full"
+                  />
+                  <div className="flex flex-col sm:flex-row justify-center gap-4 mt-4">
+                    <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 w-full sm:w-auto">
+                      Save
+                    </button>
+                    <button type="button" onClick={handleCloseForm} className="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400 w-full sm:w-auto">
+                      Cancel
+                    </button>
+                  </div>
+                </form>
               </div>
-            </form>
-          </div>
-        </div>
-      )}
-                </div>
+            </div>
+          )}
 
-                <div className="bg-white rounded-xl shadow-md p-6 max-w-7xl mx-auto mt-8 relative">
+            </div>
+
+            <div className="bg-white rounded-xl shadow-md p-6 max-w-7xl mx-auto mt-8 relative">
             <h2 className="text-xl font-semibold mb-1">Last Login Session</h2>
-            <p className="text-sm text-black mb-4">
+            <p className=" text-black mb-4">
               Check your last 10 login history of your account. If you find any
               suspicious login activity kindly change your account password.
             </p>

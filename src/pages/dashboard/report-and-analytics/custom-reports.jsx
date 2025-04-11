@@ -3,7 +3,7 @@ import HeaderNav from "../../../components/layout/HeaderNav";
 
 export default function CustomReports() {
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-6 px-8">
       <HeaderNav title="Customer-Report" />
         <div className="flex items-end justify-end">
         <Button className="mb-2 w-1/6">Download Report</Button></div>

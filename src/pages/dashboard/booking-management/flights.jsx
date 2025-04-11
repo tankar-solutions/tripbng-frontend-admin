@@ -242,111 +242,112 @@ export default function Flights() {
   };
 
   return (
-    <section className="flex flex-col gap-6">
-      <HeaderNav
-        title="Flights"
-        onSearch={(value) => {
-          setSearchTerm(value);
-          setCurrentPage(1);
-        }}
-      />
-
-      <div className="flex justify-end gap-3 px-4">
-        <button onClick={exportCSV} className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow">
-          Export CSV
-        </button>
-        <button onClick={exportPDF} className="bg-green-500 text-white px-4 py-2 rounded-lg shadow">
-          Export PDF
-        </button>
-      </div>
-
-      <div className="bg-white rounded-xl shadow-lg overflow-auto">
-        {loading ? (
-          <p className="text-center p-6 text-gray-600">Loading...</p>
-        ) : (
-          <div className="min-w-[1200px]">
-            <Table>
-              <TableHeader>
-                <TableRow className="text-gray-800">
-                  <TableHead className="py-4 px-10 text-sm">ID</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">Email</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">User Type</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">Booking Ref</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">Flight</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">Pax</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">Status</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">Travel Data</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">PNR</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">Date</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">Time</TableHead>
+    <section className="flex flex-col gap-6 px-8">
+    <HeaderNav
+      title="Flights"
+      onSearch={(value) => {
+        setSearchTerm(value);
+        setCurrentPage(1);
+      }}
+    />
+  
+    <div className="flex flex-col sm:flex-row justify-end gap-3">
+      <button onClick={exportCSV} className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
+        Export CSV
+      </button>
+      <button onClick={exportPDF} className="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600">
+        Export PDF
+      </button>
+    </div>
+  
+    <div className="bg-white rounded-xl shadow-lg overflow-x-auto">
+      {loading ? (
+        <p className="text-center p-6 text-gray-600">Loading...</p>
+      ) : (
+        <div className="min-w-[1200px]">
+          <Table>
+            <TableHeader>
+              <TableRow className="text-gray-800 bg-gray-50">
+                <TableHead className="py-4 px-6 text-sm">ID</TableHead>
+                <TableHead className="py-4 px-6 text-sm">Email</TableHead>
+                <TableHead className="py-4 px-6 text-sm">User Type</TableHead>
+                <TableHead className="py-4 px-6 text-sm">Booking Ref</TableHead>
+                <TableHead className="py-4 px-6 text-sm">Flight</TableHead>
+                <TableHead className="py-4 px-6 text-sm">Pax</TableHead>
+                <TableHead className="py-4 px-6 text-sm">Status</TableHead>
+                <TableHead className="py-4 px-6 text-sm">Travel Data</TableHead>
+                <TableHead className="py-4 px-6 text-sm">PNR</TableHead>
+                <TableHead className="py-4 px-6 text-sm">Date</TableHead>
+                <TableHead className="py-4 px-6 text-sm">Time</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {currentBookings.length > 0 ? (
+                currentBookings.map((booking, index) => {
+                  const createdAt = new Date(booking.createdAt);
+                  return (
+                    <TableRow key={booking._id}>
+                      <TableCell className="py-4 px-6 text-sm">{indexOfFirst + index + 1}</TableCell>
+                      <TableCell className="py-4 px-6 text-sm">{booking.SeatBookUserEmail || "-"}</TableCell>
+                      <TableCell className="py-4 px-6 text-sm">{booking.UserType || "-"}</TableCell>
+                      <TableCell className="py-4 px-6 text-sm">{booking.BookingRefNum || "-"}</TableCell>
+                      <TableCell className="py-4 px-6 text-sm">{booking.Flight || "-"}</TableCell>
+                      <TableCell className="py-4 px-6 text-sm">{booking.Pax || "-"}</TableCell>
+                      <TableCell className="py-4 px-6 text-sm">{booking.BookingStatus || "-"}</TableCell>
+                      <TableCell className="py-4 px-6 text-sm">{booking.TravelData || "-"}</TableCell>
+                      <TableCell className="py-4 px-6 text-sm">{booking.Pnr || "-"}</TableCell>
+                      <TableCell className="py-4 px-6 text-sm">{createdAt.toLocaleDateString()}</TableCell>
+                      <TableCell className="py-4 px-6 text-sm">{createdAt.toLocaleTimeString()}</TableCell>
+                    </TableRow>
+                  );
+                })
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={11} className="text-center text-gray-500 py-6">
+                    No flight bookings found.
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {currentBookings.length > 0 ? (
-                  currentBookings.map((booking, index) => {
-                    const createdAt = new Date(booking.createdAt);
-                    return (
-                      <TableRow key={booking._id}>
-                        <TableCell className="py-4 px-10 text-sm">{indexOfFirst + index + 1}</TableCell>
-                        <TableCell className="py-4 px-10 text-sm">{booking.SeatBookUserEmail || "-"}</TableCell>
-                        <TableCell className="py-4 px-10 text-sm">{booking.UserType || "-"}</TableCell>
-                        <TableCell className="py-4 px-10 text-sm">{booking.BookingRefNum || "-"}</TableCell>
-                        <TableCell className="py-4 px-10 text-sm">{booking.Flight || "-"}</TableCell>
-                        <TableCell className="py-4 px-10 text-sm">{booking.Pax || "-"}</TableCell>
-                        <TableCell className="py-4 px-10 text-sm">{booking.BookingStatus || "-"}</TableCell>
-                        <TableCell className="py-4 px-10 text-sm">{booking.TravelData || "-"}</TableCell>
-                        <TableCell className="py-4 px-10 text-sm">{booking.Pnr || "-"}</TableCell>
-                        <TableCell className="py-4 px-10 text-sm">{createdAt.toLocaleDateString()}</TableCell>
-                        <TableCell className="py-4 px-10 text-sm">{createdAt.toLocaleTimeString()}</TableCell>
-                      </TableRow>
-                    );
-                  })
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={11} className="text-center text-gray-500 py-6">
-                      No flight bookings found.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        )}
-      </div>
-
-      <div className="flex flex-col md:flex-row justify-between items-center mt-2 px-4 gap-4">
-        <div className="text-sm text-gray-600 w-full md:w-auto order-2 md:order-1">
-          Total Bookings: {flightBookings.length}
+              )}
+            </TableBody>
+          </Table>
         </div>
-
-        {filteredBookings.length > bookingsPerPage && (
-          <div className="flex gap-2 justify-center w-full md:w-auto order-1 md:order-2">
-            <button
-              onClick={handlePrev}
-              disabled={currentPage === 1}
-              className={`px-4 py-2 rounded-lg text-sm ${
-                currentPage === 1
-                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-blue-100 text-orange-500 hover:bg-blue-200"
-              }`}
-            >
-              Previous
-            </button>
-            {renderPagination()}
-            <button
-              onClick={handleNext}
-              disabled={currentPage === totalPages}
-              className={`px-4 py-2 rounded-lg text-sm ${
-                currentPage === totalPages
-                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-blue-100 text-orange-500 hover:bg-blue-200"
-              }`}
-            >
-              Next
-            </button>
-          </div>
-        )}
+      )}
+    </div>
+  
+    <div className="flex flex-col md:flex-row justify-between items-center mt-4 gap-4">
+      <div className="text-sm text-gray-600 order-2 md:order-1">
+        Total Bookings: {flightBookings.length}
       </div>
-    </section>
+  
+      {filteredBookings.length > bookingsPerPage && (
+        <div className="flex flex-wrap gap-2 justify-center order-1 md:order-2">
+          <button
+            onClick={handlePrev}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded-lg text-sm ${
+              currentPage === 1
+                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                : "bg-blue-100 text-orange-500 hover:bg-blue-200"
+            }`}
+          >
+            Previous
+          </button>
+          {renderPagination()}
+          <button
+            onClick={handleNext}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded-lg text-sm ${
+              currentPage === totalPages
+                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                : "bg-blue-100 text-orange-500 hover:bg-blue-200"
+            }`}
+          >
+            Next
+          </button>
+        </div>
+      )}
+    </div>
+  </section>
+  
   );
 }

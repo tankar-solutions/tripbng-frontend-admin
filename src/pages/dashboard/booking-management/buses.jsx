@@ -146,7 +146,7 @@ export default function Buses() {
   );
 
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-6 px-8">
       <HeaderNav
         title="Buses"
         showSearch

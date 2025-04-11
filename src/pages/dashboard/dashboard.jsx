@@ -154,7 +154,7 @@ export default function AdminDashboardReport() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-100 p-6 space-y-6">
+    <main className="min-h-screen bg-gray-100 p-6 px-8 space-y-6">
       <HeaderNav title="Dashboard Report" />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

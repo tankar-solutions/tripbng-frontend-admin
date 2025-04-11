@@ -1,10 +1,16 @@
+import { MdDashboard } from "react-icons/md";
+import { FaUsers, FaHotel, FaChartBar, FaMoneyBillWave, FaHeadset, FaGift, FaCommentDots, FaUserShield } from "react-icons/fa";
+
+
 export const navitems = [
   {
     label: "Dashboard",
     href: "/dashboard",
+    icon: MdDashboard,
   },
   {
     label: "User Management",
+    icon: FaUsers,
     subItems: [
       {
         label: "Users",
@@ -44,6 +50,7 @@ export const navitems = [
   },
   {
     label: "Booking Management",
+    icon: FaHotel,
     subItems: [
       {
         label: "Flights",
@@ -69,6 +76,7 @@ export const navitems = [
   },
   {
     label: "Report & Analytics",
+    icon: FaChartBar,
     subItems: [
       {
         label: "Revenue Report",
@@ -90,6 +98,7 @@ export const navitems = [
   },
   {
     label: "Payments & Transactions",
+    icon: FaMoneyBillWave,
     subItems: [
       {
         label: "Transaction Monitoring",
@@ -107,6 +116,7 @@ export const navitems = [
   },
   {
     label: "Support & Assistance",
+    icon: FaHeadset,
     subItems: [
       {
         label: "Support Tickets",
@@ -116,6 +126,7 @@ export const navitems = [
   },
   {
     label: "Offers & Promotions",
+    icon: FaGift,
     subItems: [
       {
         label: "Create Offers",
@@ -125,6 +136,7 @@ export const navitems = [
   },
   {
     label: "Feedback & Reviews",
+    icon: FaCommentDots,
     subItems: [
       {
         label: "Manage Reviews",
@@ -138,6 +150,7 @@ export const navitems = [
   },
   {
     label: "SubAdmin",
+    icon: FaUserShield,
     subItems: [
       {
         label: "Add SubAdmin",

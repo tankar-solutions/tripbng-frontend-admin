@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { FaUserFriends } from "react-icons/fa";
-import { Check } from "lucide-react"; 
 
 const MarkupSettings = () => {
   const [profiles, setProfiles] = useState([
@@ -8,8 +7,21 @@ const MarkupSettings = () => {
     { name: "travel agent", agents: 1 },
   ]);
   const [showB2CModal, setShowB2CModal] = useState(false);
-  const [selectedTab, setSelectedTab] = useState("Airlines");
-
+  const [selectedTab, setSelectedTab] = useState("Airlines"); 
+  const markupOptions = [
+    { id: "1", label: "Flat for Full Booking" },
+    { id: "2", label: "Flat Per Pax" },
+    { id: "3", label: "Flat Per Pax Per Segment" },
+    { id: "4", label: "Flat Per Pax Segment Full Booking" },
+    { id: "5", label: "Percentage(%) Per Pax" },
+    { id: "6", label: "Percentage(%) for Full Booking" },
+    { id: "7", label: "Percentage(%) Per Pax Per Segment" },
+    { id: "8", label: "Percentage(%) Per Segment Full Booking" },
+  ];
+  
+  const [selectedId, setSelectedId] = useState("");
+  
+  const selectedLabel = markupOptions.find(opt => opt.id === selectedId)?.label || "";
 
   const [activeTab, setActiveTab] = useState("Markup Setting");
   const tabs = ["Markup Setting", "Email Setup", "KYC Setup", "Inventory Settings"];
@@ -31,24 +43,23 @@ const MarkupSettings = () => {
   };
 
   return (
-    <div className="p- text-[17px]">
-        <div className="bg-white rounded-xl shadow-lg p-10 max-w-7xl mx-auto">
-        {/* Tabs */}
-        <div className="flex space-x-6 border-b pb-3 mb-5 text-lg">
-      {tabs.map((tab) => (
-        <div
-          key={tab}
-          onClick={() => setActiveTab(tab)}
-          className={`pb-1 cursor-pointer ${
-            activeTab === tab
-              ? "border-b-2 border-blue-900 text-blue-900 font-semibold"
-              : "text-gray-500 hover:text-blue-900"
-          }`}
-        >
-          {tab}
-        </div>
-      ))}
-    </div>
+    <div className="p-4 sm:p-6 md:p-8 lg:p-10 text-[16px] sm:text-[17px]">
+    <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 lg:p-10 max-w-7xl mx-auto">
+      <div className="flex overflow-x-auto space-x-4 sm:space-x-6 border-b pb-2 sm:pb-3 mb-4 sm:mb-5 text-base sm:text-lg">
+        {tabs.map((tab) => (
+          <div
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`whitespace-nowrap pb-1 cursor-pointer ${
+              activeTab === tab
+                ? "border-b-2 border-blue-900 text-blue-900 font-semibold"
+                : "text-gray-500 hover:text-blue-900"
+            }`}
+          >
+            {tab}
+          </div>
+        ))}
+      </div>
     <p className="text-base text-black bg-gray-100 p-5 rounded mb-5">
         Define service wise markup for your master B2B account, Sub accounts and for your website if you have B2C WL.
         </p>
@@ -150,36 +161,35 @@ const MarkupSettings = () => {
         </div>
       )}
 
-        {showB2CModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
-            <div className="bg-white rounded-xl shadow-lg w-full max-w-7xl h-[90vh] flex overflow-hidden">
-
-            <button
-                onClick={() => setShowB2CModal(false)}
-                className="absolute top-12 right-60 text-gray-600 hover:text-red-600 z-50 text-2xl"
-                >
-                ✖
-                </button>
-                <div className="w-64 bg-gray-100 p-4 overflow-y-auto">
+            {showB2CModal && (
+              <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center px-2">
+                <div className="relative bg-white rounded-xl shadow-lg w-full max-w-7xl h-[90vh] flex flex-col md:flex-row overflow-hidden">
+                  <button
+                    onClick={() => setShowB2CModal(false)}
+                    className="absolute top-4 right-7 text-gray-400 hover:text-black z-50 text-2xl"
+                  >
+                    ✖
+                  </button>
+                  <div className="w-full md:w-64 bg-gray-100 p-4 overflow-y-auto border-b md:border-b-0 md:border-r">
                     <h3 className="text-lg font-bold mb-4">Default Profile</h3>
                     <ul className="space-y-2">
-                    {["Airlines", "Holidays", "Hotel", "Visa", "Bus", "Insurance"].map(
+                      {["Airlines", "Holidays", "Hotel", "Visa", "Bus", "Insurance"].map(
                         (item) => (
-                        <li
+                          <li
                             key={item}
                             onClick={() => setSelectedTab(item)}
                             className={`cursor-pointer px-3 py-2 rounded transition ${
-                            selectedTab === item
+                              selectedTab === item
                                 ? "bg-gray-300 text-black"
                                 : "hover:bg-gray-200"
                             }`}
-                        >
+                          >
                             {item}
-                        </li>
+                          </li>
                         )
-                    )}
+                      )}
                     </ul>
-                </div>
+                  </div>
 
                 <div className="flex-1 p-16 overflow-y-auto">
 
@@ -195,22 +205,27 @@ const MarkupSettings = () => {
                             <div key={i}>
                             <label className="block mb-2 text-m font-medium">{label}*</label>
                             <div className="flex items-center gap-2">
-                                <input
-                                type="number"
-                                defaultValue="0"
-                                className="border px-3 py-2 rounded-lg w-20"
-                                />
+                            <input
+                              type="number"
+                              defaultValue="0"
+                              min="0"
+                              className="border px-3 py-2 rounded-lg w-20"
+                            />
                                 <div className="relative w-full max-w-[250px]">
-                                <select className="border px-3 py-2 rounded-lg w-full truncate">
-                                    <option>Flat for Full Booking</option>
-                                    <option>Flat Per Pax</option>
-                                    <option>Flat Per Pax Per Segment</option>
-                                    <option>Flat Per Pax Segment Full Booking</option>
-                                    <option>Percentage(%) Per Pax</option>
-                                    <option>Percentage(%) for Full Booking</option>
-                                    <option>Percentage(%) Per Pax Per Segment</option>
-                                    <option>Percentage(%) Per Segment Full Booking</option>
-                                </select>
+                                <select
+                                    className="border px-3 py-2 rounded-lg w-full truncate"
+                                    onChange={(e) => console.log("Selected Option ID:", e.target.value)}
+                                  >
+                                    <option value="">-- Select Markup Type --</option>
+                                    <option value="2">Flat for Full Booking</option>
+                                    <option value="1">Flat Per Pax</option>
+                                    <option value="3">Flat Per Pax Per Segment</option>
+                                    <option value="4">Flat Per Pax Segment Full Booking</option>
+                                    <option value="6">Percentage(%) Per Pax</option>
+                                    <option value="7">Percentage(%) for Full Booking</option>
+                                    <option value="8">Percentage(%) Per Pax Per Segment</option>
+                                    <option value="9">Percentage(%) Per Segment Full Booking</option>
+                                  </select>
                                 </div>
                             </div>
                             </div>
@@ -225,13 +240,15 @@ const MarkupSettings = () => {
                             <div key={i}>
                             <label className="block mb-2 text-m font-medium">{label}*</label>
                             <div className="flex items-center gap-2">
-                                <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
+                                <input type="number" defaultValue="0" min ="0" className="border px-3 py-2 rounded-lg w-20" />
                                 <div className="relative w-full max-w-[250px]">
-                                <select className="border px-3 py-2 rounded-lg w-full truncate">
-                                    <option>Flat for Full Booking</option>
-                                    <option>Flat Per Pax</option>
-                                    <option>Percentage(%) Per Pax</option>
-                                    <option>Percentage(%) for Full Booking</option>
+                                <select className="border px-3 py-2 rounded-lg w-full truncate"
+                                onChange={(e) => console.log("Selected Option ID:", e.target.value)}>
+                                    <option value="">-- Select Markup Type --</option>
+                                    <option value="2">Flat for Full Booking</option>
+                                    <option value="1">Flat Per Pax</option>
+                                    <option value="6">Percentage(%) Per Pax</option>
+                                    <option value="7">Percentage(%) for Full Booking</option>
                                 </select>
                                 </div>
                             </div>
@@ -249,13 +266,15 @@ const MarkupSettings = () => {
                             <div key={i}>
                             <label className="block mb-2 text-m font-medium">{label}*</label>
                             <div className="flex items-center gap-2">
-                                <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
+                                <input type="number" defaultValue="0" min="0" className="border px-3 py-2 rounded-lg w-20" />
                                 <div className="relative w-full max-w-[250px]">
-                                <select className="border px-3 py-2 rounded-lg w-full truncate">
-                                    <option>Flat for Full Amendment</option>
-                                    <option>Flat Per Pax</option>
-                                    <option>Percentage(%) for Full Amendment</option>
-                                    <option>Percentage(%) Per Pax</option>
+                                <select className="border px-3 py-2 rounded-lg w-full truncate"
+                                onChange={(e) => console.log("Selected Option ID:", e.target.value)}>
+                                    <option value="">-- Select Markup Type --</option>
+                                    <option value="5">Flat for Full Amendment</option>
+                                    <option value ="1">Flat Per Pax</option>
+                                    <option value="10">Percentage(%) for Full Amendment</option>
+                                    <option value="6">Percentage(%) Per Pax</option>
                                 </select>
                                 </div>
                             </div>
@@ -274,13 +293,15 @@ const MarkupSettings = () => {
                             <div key={i}>
                             <label className="block mb-2 text-m font-medium">{label}*</label>
                             <div className="flex items-center gap-2">
-                                <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
+                                <input type="number" defaultValue="0" min="0" className="border px-3 py-2 rounded-lg w-20" />
                                 <div className="relative w-full max-w-[250px]">
-                                <select className="border px-3 py-2 rounded-lg w-full truncate">
-                                    <option>Flat for Full Amendment</option>
-                                    <option>Flat Per Pax</option>
-                                    <option>Percentage(%) for Full Amendment</option>
-                                    <option>Percentage(%) Per Pax</option>
+                                <select className="border px-3 py-2 rounded-lg w-full truncate"
+                                onChange={(e) => console.log("Selected Option ID:", e.target.value)}>
+                                    <option value="">-- Select Markup Type --</option>
+                                    <option value ="5">Flat for Full Amendment</option>
+                                    <option value ="1">Flat Per Pax</option>
+                                    <option value="10">Percentage(%) for Full Amendment</option>
+                                    <option value="6">Percentage(%) Per Pax</option>
                                 </select>
                                 </div>
                             </div>
@@ -296,17 +317,19 @@ const MarkupSettings = () => {
                             <div key={i}>
                             <label className="block mb-2 text-m font-medium">{label}*</label>
                             <div className="flex items-center gap-2">
-                                <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
+                                <input type="number" defaultValue="0" min="0" className="border px-3 py-2 rounded-lg w-20" />
                                 <div className="relative w-full max-w-[250px]">
-                                <select className="border px-3 py-2 rounded-lg w-full truncate">
-                                    <option>Flat for Full Booking</option>
-                                    <option>Flat Per Pax</option>
-                                    <option>Flat Per Pax Per Segment</option>
-                                    <option>Flat Per Pax Segment Full Booking</option>
-                                    <option>Percentage(%) Per Pax</option>
-                                    <option>Percentage(%) for Full Booking</option>
-                                    <option>Percentage(%) Per Pax Per Segment</option>
-                                    <option>Percentage(%) Per Segment Full Booking</option>
+                                <select className="border px-3 py-2 rounded-lg w-full truncate"
+                                onChange={(e) => console.log("Selected Option ID:", e.target.value)}>
+                                    <option value="">-- Select Markup Type --</option>
+                                    <option value="2">Flat for Full Booking</option>
+                                    <option value="1">Flat Per Pax</option>
+                                    <option value="3">Flat Per Pax Per Segment</option>
+                                    <option value="4">Flat Per Pax Segment Full Booking</option>
+                                    <option value="6">Percentage(%) Per Pax</option>
+                                    <option value="7">Percentage(%) for Full Booking</option>
+                                    <option value="8">Percentage(%) Per Pax Per Segment</option>
+                                    <option value="9">Percentage(%) Per Segment Full Booking</option>
                                 </select>
                                 </div>
                             </div>
@@ -325,10 +348,12 @@ const MarkupSettings = () => {
                             <div key={i}>
                             <label className="block mb-2 text-m font-medium">{label}*</label>
                             <div className="flex items-center gap-2">
-                                <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
-                                <select className="border px-3 py-2 rounded-lg flex-1">
-                                <option>Percentage(%) for Full Booking</option>
-                                <option>Percentage(%) Per Pax</option>
+                                <input type="number" defaultValue="0" min="0" className="border px-3 py-2 rounded-lg w-20" />
+                                <select className="border px-3 py-2 rounded-lg w-full truncate"
+                                onChange={(e) => console.log("Selected Option ID:", e.target.value)}>
+                                <option value="">-- Select Markup Type --</option>
+                                <option value="7">Percentage(%) for Full Booking</option>
+                                <option value="6">Percentage(%) Per Pax</option>
                                 </select>
                             </div>
                             </div>
@@ -357,10 +382,12 @@ const MarkupSettings = () => {
                         <div>
                             <label className="block mb-2 text-m font-medium">Markup*</label>
                             <div className="flex items-center gap-2">
-                            <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
-                            <select className="border px-3 py-2 rounded flex-1">
-                                <option>Percentage(%) for Full Booking</option>
-                                <option>Percentage(%) Per Pax</option>
+                            <input type="number" defaultValue="0" min="0" className="border px-3 py-2 rounded-lg w-20" />
+                            <select className="border px-3 py-2 rounded-lg w-full truncate"
+                                onChange={(e) => console.log("Selected Option ID:", e.target.value)}>
+                                <option value="">-- Select Markup Type --</option>
+                                <option value="7">Percentage(%) for Full Booking</option>
+                                <option value="6">Percentage(%) Per Pax</option>
                             </select>
                             </div>
                         </div>
@@ -379,12 +406,14 @@ const MarkupSettings = () => {
                             <div key={i}>
                             <label className="block mb-2 text-m font-medium">{label}*</label>
                             <div className="flex items-center gap-2">
-                                <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
-                                <select className="border px-3 py-2 rounded-lg flex-1">
-                                <option>Flat fot Full Booking</option>
-                                <option>Flat per Pax</option>
-                                <option>Percentage(%) for Full Booking</option>
-                                <option>Percentage(%) Per Pax</option>
+                                <input type="number" defaultValue="0" min="0" className="border px-3 py-2 rounded-lg w-20" />
+                                <select className="border px-3 py-2 rounded-lg w-full truncate"
+                                onChange={(e) => console.log("Selected Option ID:", e.target.value)}>
+                                <option value="">-- Select Markup Type --</option>
+                                <option value="2">Flat fot Full Booking</option>
+                                <option value="1">Flat per Pax</option>
+                                <option value="7">Percentage(%) for Full Booking</option>
+                                <option value="6">Percentage(%) Per Pax</option>
                                 </select>
                             </div>
                             </div>
@@ -403,10 +432,12 @@ const MarkupSettings = () => {
                             <div key={i}>
                             <label className="block mb-2 text-m font-medium">{label}*</label>
                             <div className="flex items-center gap-2">
-                                <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
-                                <select className="border px-3 py-2 rounded-lg flex-1">
-                                <option>Percentage(%) for Full Booking</option>
-                                <option>Percentage(%) Per Pax</option>
+                                <input type="number" defaultValue="0" min="0" className="border px-3 py-2 rounded-lg w-20" />
+                                <select className="border px-3 py-2 rounded-lg w-full truncate"
+                                onChange={(e) => console.log("Selected Option ID:", e.target.value)}>
+                                <option value="">-- Select Markup Type --</option>
+                                <option value="7">Percentage(%) for Full Booking</option>
+                                <option value="6">Percentage(%) Per Pax</option>
                                 </select>
                             </div>
                             </div>
@@ -436,13 +467,14 @@ const MarkupSettings = () => {
                         <div>
                             <label className="block mb-2 text-m font-medium">Markup*</label>
                             <div className="flex items-center gap-2">
-                            <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
-                            <select className="border px-3 py-2 rounded-lg flex-1">
-                                <option></option>
-                                <option>Flat for Full Booking</option>
-                                <option>Flat Per Pax</option>
-                                <option>Percentage(%) for Full Booking</option>
-                                <option>Percentage(%) Per Pax</option>
+                            <input type="number" defaultValue="0" min="0" className="border px-3 py-2 rounded-lg w-20" />
+                            <select className="border px-3 py-2 rounded-lg w-full truncate"
+                                onChange={(e) => console.log("Selected Option ID:", e.target.value)}>
+                                <option value="">-- Select Markup Type --</option>
+                                <option value="2">Flat for Full Booking</option>
+                                <option value="1">Flat Per Pax</option>
+                                <option value="7">Percentage(%) for Full Booking</option>
+                                <option value="6">Percentage(%) Per Pax</option>
                             </select>
                             </div>
                         </div>
@@ -460,10 +492,12 @@ const MarkupSettings = () => {
                             <div key={i}>
                             <label className="block mb-2 text-m font-medium">{label}*</label>
                             <div className="flex items-center gap-2">
-                                <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
-                                <select className="border px-3 py-2 rounded-lg flex-1">
-                                <option>Flat per Pax</option>
-                                <option>Percentage(%) Per Pax</option>
+                                <input type="number" defaultValue="0" min="0" className="border px-3 py-2 rounded-lg w-20" />
+                                <select className="border px-3 py-2 rounded-lg w-full truncate"
+                                onChange={(e) => console.log("Selected Option ID:", e.target.value)}>
+                                <option value="">-- Select Markup Type --</option>
+                                <option value="1">Flat per Pax</option>
+                                <option value="6">Percentage(%) Per Pax</option>
                                 </select>
                             </div>
                             </div>
@@ -482,12 +516,14 @@ const MarkupSettings = () => {
                             <div key={i}>
                             <label className="block mb-2 text-m font-medium">{label}*</label>
                             <div className="flex items-center gap-2">
-                                <input type="number" defaultValue="0" className="border px-3 py-2 rounded-lg w-20" />
-                                <select className="border px-3 py-2 rounded-lg flex-1">
-                                <option>Flat per Full Booking</option>
-                                <option>Flat per Pax</option>
-                                <option>Percentage(%) Full Booking</option>
-                                <option>Percentage(%) Per Pax</option>
+                                <input type="number" defaultValue="0" min="0" className="border px-3 py-2 rounded-lg w-20" />
+                                <select className="border px-3 py-2 rounded-lg w-full truncate"
+                                onChange={(e) => console.log("Selected Option ID:", e.target.value)}>
+                                <option value="">-- Select Markup Type --</option>
+                                <option value="2">Flat per Full Booking</option>
+                                <option value="1">Flat per Pax</option>
+                                <option value="7">Percentage(%) Full Booking</option>
+                                <option value="6">Percentage(%) Per Pax</option>
                                 </select>
                             </div>
                             </div>

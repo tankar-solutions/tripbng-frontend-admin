@@ -12,39 +12,39 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0">
-      <div className="h-full px-3 py-4 overflow-y-auto bg-white">
-        <Link
-          to="/dashboard"
-          className="flex items-center ps-2.5 mb-5 justify-center w-full"
-        >
-          <img src="/logo.png" alt="Logo" className="h-10 w-auto" />
+    <aside className="fixed top-0 left-0 z-40 w-72 h-screen transition-transform bg-white shadow-lg sm:translate-x-0 overflow-y-auto border-r border-orange-100">
+      <div className="h-full px-4 py-5">
+        {/* Logo */}
+        <Link to="/dashboard" className="flex items-center justify-center mb-8">
+          <img src="/logo.png" alt="Logo" className="h-12 w-auto" />
         </Link>
-        <ul className="space-y-2">
+
+        {/* Nav Items */}
+        <ul className="space-y-2 text-gray-800 font-medium">
           {navitems.map((item) => (
             <li key={item.label}>
               <button
                 onClick={() => item.subItems && toggleSubmenu(item.label)}
-                className={`flex items-center justify-between w-full p-2 rounded-lg group text-sm ${
+                className={`flex items-center justify-between w-full px-4 py-3 rounded-lg transition-all duration-200 whitespace-nowrap ${
                   pathname === item.href
-                    ? "bg-orange-400/75 text-white"
-                    : "hover:bg-orange-400/25"
+                    ? "bg-orange-500 text-white font-semibold shadow-md"
+                    : "hover:bg-orange-100"
                 }`}
               >
-                <span className="flex items-center">
-                  <span className="ms-3 text-sm">{item.label}</span>
+                <span className="flex items-center gap-3 truncate w-full text-left">
+                  {item.icon && <item.icon className="text-xl flex-shrink-0" />}
+                  <span className="truncate">{item.label}</span>
                 </span>
                 {item.subItems &&
                   (openSubmenus[item.label] ? (
-                    <ChevronDown className="w-4 h-4" />
+                    <ChevronDown className="w-4 h-4 flex-shrink-0" />
                   ) : (
-                    <ChevronRight className="w-4 h-4" />
+                    <ChevronRight className="w-4 h-4 flex-shrink-0" />
                   ))}
               </button>
-
               {item.subItems && (
                 <ul
-                  className={`transition-all overflow-hidden duration-150 ${
+                  className={`transition-all overflow-hidden duration-300 ${
                     openSubmenus[item.label] ? "max-h-screen py-2" : "max-h-0"
                   }`}
                 >
@@ -54,10 +54,10 @@ export default function Sidebar() {
                         <>
                           <button
                             onClick={() => toggleSubmenu(subItem.label)}
-                            className={`flex items-center justify-between w-full py-2 pl-11 text-sm transition duration-75 rounded-lg group ${
+                            className={`flex items-center justify-between w-full py-2 pl-12 pr-4 text-sm rounded-lg transition-all ${
                               pathname === subItem.href
-                                ? "bg-orange-400/75 text-white"
-                                : "hover:bg-orange-400/25"
+                                ? "bg-orange-400 text-white font-semibold"
+                                : "hover:bg-orange-100"
                             }`}
                           >
                             {subItem.label}
@@ -68,7 +68,7 @@ export default function Sidebar() {
                             )}
                           </button>
                           <ul
-                            className={`transition-all overflow-hidden duration-150 ${
+                            className={`transition-all overflow-hidden duration-300 ${
                               openSubmenus[subItem.label]
                                 ? "max-h-screen py-1"
                                 : "max-h-0"
@@ -78,10 +78,10 @@ export default function Sidebar() {
                               <li key={nestedItem.label}>
                                 <Link
                                   to={nestedItem.href}
-                                  className={`flex items-center w-full py-2 text-sm transition duration-75 rounded-lg pl-16 group ${
+                                  className={`block w-full py-2 pl-16 pr-4 text-sm rounded-lg transition-all ${
                                     pathname === nestedItem.href
-                                      ? "bg-orange-400/75 text-white"
-                                      : "hover:bg-orange-400/25"
+                                      ? "bg-orange-300 text-white font-semibold"
+                                      : "hover:bg-orange-50"
                                   }`}
                                 >
                                   {nestedItem.label}
@@ -93,10 +93,10 @@ export default function Sidebar() {
                       ) : (
                         <Link
                           to={subItem.href}
-                          className={`flex items-center w-full py-2 text-sm transition duration-75 rounded-lg pl-11 group ${
+                          className={`block w-full py-2 pl-12 pr-4 text-sm rounded-lg transition-all ${
                             pathname === subItem.href
-                              ? "bg-orange-400/75 text-white"
-                              : "hover:bg-orange-400/25"
+                              ? "bg-orange-400 text-white font-semibold"
+                              : "hover:bg-orange-50"
                           }`}
                         >
                           {subItem.label}

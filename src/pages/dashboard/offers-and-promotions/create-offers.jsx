@@ -45,7 +45,7 @@ export default function CreateOffers() {
   };
 
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-6 px-8">
         <HeaderNav title="Create-Offers" />
       <div className="flex flex-col gap-4">
         <input

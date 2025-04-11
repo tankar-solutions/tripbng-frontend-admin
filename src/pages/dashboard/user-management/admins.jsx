@@ -47,48 +47,46 @@ const admins = [
 
 export default function Admins() {
   return (
-    <section className="flex flex-col gap-6">
-     <HeaderNav title="Admin" />
-      <div className="bg-white rounded-xl">
-        <Table>
-          <TableHeader>
+    <section className="flex flex-col gap-6 px-8">
+    <HeaderNav title="Admin" />
+  
+    <div className="bg-white rounded-xl overflow-x-auto shadow">
+      <Table className="min-w-[600px] text-sm">
+        <TableHeader>
+          <TableRow className="bg-gray-50 text-gray-700">
+            <TableHead>Admin Name</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Phone</TableHead>
+            <TableHead>Role</TableHead>
+            <TableHead>Status</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {admins.map((admin) => (
             <TableRow>
-              <TableHead>Admin Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Phone</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Status</TableHead>
+              <TableCell>{admin.adminId}</TableCell>
+              <TableCell>{admin.email}</TableCell>
+              <TableCell>{admin.phone}</TableCell>
+              <TableCell>{admin.role}</TableCell>
+              <TableCell>
+                <p
+                  className={`w-fit p-1 text-xs rounded-md ${
+                    admin.status === "Active"
+                      ? "bg-green-200 text-green-800"
+                      : admin.status === "Inactive"
+                      ? "bg-red-200 text-red-800"
+                      : "bg-yellow-200 text-yellow-800"
+                  }`}
+                >
+                  {admin.status}
+                </p>
+              </TableCell>
             </TableRow>
-          </TableHeader>
-          <TableBody>
-            {admins.map((admin) => (
-              <TableRow key={admin.adminId} className="text-sm">
-                <TableCell>
-                  <Link to={`${admin.adminId}`} className="font-medium">
-                    {admin.name}
-                  </Link>
-                </TableCell>
-                <TableCell>{admin.email}</TableCell>
-                <TableCell>{admin.phone}</TableCell>
-                <TableCell>{admin.role}</TableCell>
-                <TableCell>
-                  <p
-                    className={`w-fit p-1 text-xs rounded-md ${
-                      admin.status === "Active"
-                        ? "bg-green-200 text-green-800"
-                        : admin.status === "Inactive"
-                        ? "bg-red-200 text-red-800"
-                        : "bg-yellow-200 text-yellow-800"
-                    }`}
-                  >
-                    {admin.status}
-                  </p>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-    </section>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  </section>
+  
   );
 }

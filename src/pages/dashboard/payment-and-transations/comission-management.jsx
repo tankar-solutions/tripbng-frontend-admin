@@ -54,7 +54,7 @@ const commissions = [
 
 export default function CommissionManagement() {
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-6 px-8">
       <HeaderNav title="Comission-Management" />
       <div className="flex items-end justify-end">
       <Button className="mb-2 w-1/6">Refresh Transactions</Button></div>

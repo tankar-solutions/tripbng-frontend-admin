@@ -209,73 +209,78 @@ const UnapprovedAgentsPage = () => {
     const paginated = paginate(filtered);
 
     return (
-      <div className="mb-10">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-xl font-bold">{title}</h2>
-          {filtered.length > 0 && (
-            <div className="flex gap-2">
-              <button
-                onClick={() => exportToCSV(filtered, title.replace(" ", "_"))}
-                className="bg-blue-500 text-white px-3 py-2 rounded-lg shadow text-sm"
-              >
-                Export CSV
-              </button>
-              <button
-                onClick={() => exportToPDF(filtered, title.replace(" ", "_"))}
-                className="bg-green-500 text-white px-3 py-2 rounded-lg shadow text-sm"
-              >
-                Export PDF
-              </button>
-            </div>
-          )}
-        </div>
-
-        {filtered.length === 0 ? (
-          <p className="text-gray-500">No {title.toLowerCase()} found.</p>
-        ) : (
-          <>
-            <div className="overflow-x-auto border rounded-lg shadow-sm">
-              <Table className="bg-white">
-                <TableHeader>
-                  <TableRow className="text-gray-600">
-                    <TableHead>ID</TableHead>
-                    <TableHead>Agency Name</TableHead>
-                    <TableHead>Mobile</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>City</TableHead>
-                    <TableHead>State</TableHead>
-                    <TableHead>Country</TableHead>
-                    <TableHead>Pincode</TableHead>
-                    <TableHead>Address1</TableHead>
-                    <TableHead>Adhar No.</TableHead>
-                    <TableHead>GST No.</TableHead>
-                    <TableHead>Created</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {paginated.map((agent, index) => (
-                    <TableRow key={agent._id} className="hover:bg-gray-50">
-                      <TableCell>{(currentPage - 1) * itemsPerPage + index + 1}</TableCell>
-                      <TableCell>{agent.agencyName}</TableCell>
-                      <TableCell>{agent.mobile}</TableCell>
-                      <TableCell>{agent.email}</TableCell>
-                      <TableCell>{agent.city}</TableCell>
-                      <TableCell>{agent.state}</TableCell>
-                      <TableCell>{agent.country}</TableCell>
-                      <TableCell>{agent.pincode}</TableCell>
-                      <TableCell>{agent.address1}</TableCell>
-                      <TableCell>{agent.adharNumber}</TableCell>
-                      <TableCell>{agent.gstNumber}</TableCell>
-                      <TableCell>{moment(agent.createdAt).format("YYYY-MM-DD HH:mm")}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-            {renderPagination(filtered.length)}
-          </>
+      <div className="mb-10 px-4">
+      {/* Title and Export Buttons */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+        <h2 className="text-xl font-bold">{title}</h2>
+        {filtered.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => exportToCSV(filtered, title.replace(" ", "_"))}
+              className="bg-blue-500 text-white px-3 py-2 rounded-lg shadow text-sm"
+            >
+              Export CSV
+            </button>
+            <button
+              onClick={() => exportToPDF(filtered, title.replace(" ", "_"))}
+              className="bg-green-500 text-white px-3 py-2 rounded-lg shadow text-sm"
+            >
+              Export PDF
+            </button>
+          </div>
         )}
       </div>
+    
+      {/* Table or Message */}
+      {filtered.length === 0 ? (
+        <p className="text-gray-500">No {title.toLowerCase()} found.</p>
+      ) : (
+        <>
+          <div className="overflow-x-auto border rounded-lg shadow-sm">
+            <Table className="min-w-[1000px] bg-white text-sm">
+              <TableHeader>
+                <TableRow className="text-gray-600">
+                  <TableHead>ID</TableHead>
+                  <TableHead>Agency Name</TableHead>
+                  <TableHead>Mobile</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>City</TableHead>
+                  <TableHead>State</TableHead>
+                  <TableHead>Country</TableHead>
+                  <TableHead>Pincode</TableHead>
+                  <TableHead>Address1</TableHead>
+                  <TableHead>Adhar No.</TableHead>
+                  <TableHead>GST No.</TableHead>
+                  <TableHead>Created</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {paginated.map((agent, index) => (
+                  <TableRow key={agent._id} className="hover:bg-gray-50">
+                    <TableCell>{(currentPage - 1) * itemsPerPage + index + 1}</TableCell>
+                    <TableCell>{agent.agencyName}</TableCell>
+                    <TableCell>{agent.mobile}</TableCell>
+                    <TableCell>{agent.email}</TableCell>
+                    <TableCell>{agent.city}</TableCell>
+                    <TableCell>{agent.state}</TableCell>
+                    <TableCell>{agent.country}</TableCell>
+                    <TableCell>{agent.pincode}</TableCell>
+                    <TableCell>{agent.address1}</TableCell>
+                    <TableCell>{agent.adharNumber}</TableCell>
+                    <TableCell>{agent.gstNumber}</TableCell>
+                    <TableCell>{moment(agent.createdAt).format("YYYY-MM-DD HH:mm")}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+    
+          {/* Pagination */}
+          <div className="mt-4">{renderPagination(filtered.length)}</div>
+        </>
+      )}
+    </div>
+    
     );
   };
 

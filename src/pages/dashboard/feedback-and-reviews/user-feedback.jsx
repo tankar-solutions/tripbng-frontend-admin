@@ -39,7 +39,7 @@ export default function UserFeedback() {
   };
 
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-6 px-8">
       <HeaderNav title="User-feedback" />
       <div className="bg-white rounded-xl p-4">
         <Table>

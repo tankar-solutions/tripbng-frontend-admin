@@ -23,7 +23,10 @@ export default function Login() {
       });
 
       if (response.status === 200) {
-        toast.success("Login successful!");
+        toast.success("Send a OTP successful!");
+
+        await storeLoginSession();
+
         navigate("/otp-verify", { state: { email } });
       } else {
         toast.error("Login failed. Please check your credentials.");
@@ -33,6 +36,26 @@ export default function Login() {
       console.error("Login Error:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const storeLoginSession = async () => {
+    try {
+      const res = await fetch("https://api.ipify.org?format=json");
+      const data = await res.json();
+      const ip = data.ip;
+
+      const time = new Date().toLocaleString();
+      const browser = navigator.userAgent;
+
+      const loginRecord = { ip, time, browser };
+
+      const existingData = JSON.parse(localStorage.getItem("loginData")) || [];
+      const updatedData = [loginRecord, ...existingData].slice(0, 10);
+
+      localStorage.setItem("loginData", JSON.stringify(updatedData));
+    } catch (err) {
+      console.error("Failed to fetch IP address:", err);
     }
   };
 

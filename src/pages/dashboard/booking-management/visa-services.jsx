@@ -262,7 +262,7 @@ export default function VisaBookings() {
   };
 
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-6 px-8">
       <HeaderNav
         title="Visa Bookings"
         onSearch={(value) => {

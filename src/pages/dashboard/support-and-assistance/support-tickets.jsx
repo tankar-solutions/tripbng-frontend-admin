@@ -49,7 +49,7 @@ const tickets = [
 
 export default function SupportTickets() {
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-6 px-8">
       <HeaderNav title="Support Tickets" />
         <div className="flex items-end justify-end">
         <Button className="mb-2 w-1/6">Refresh Tickets</Button></div>

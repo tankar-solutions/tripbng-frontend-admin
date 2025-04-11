@@ -176,107 +176,121 @@ export default function Customers() {
   };
 
   return (
-    <section className="flex flex-col gap-6">
-      <HeaderNav
-        title="Users"
-        onSearch={(value) => {
-          setSearchTerm(value);
-          setCurrentPage(1);
-        }}
-      />
-
-      <div className="flex justify-end gap-3 px-4">
-        <button onClick={exportCSV} className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow">
-          Export CSV
-        </button>
-        <button onClick={exportPDF} className="bg-green-500 text-white px-4 py-2 rounded-lg shadow">
-          Export PDF
-        </button>
-      </div>
-
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-        {loading ? (
-          <p className="text-center p-6 text-gray-600">Loading...</p>
-        ) : (
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow className="text-gray-600">
-                  <TableHead className="py-4 px-10 text-sm">ID</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">Name</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">Email</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">Mobile</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">User Type</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">State</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">Address</TableHead>
-                  <TableHead className="py-4 px-10 text-sm">Pincode</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {currentUsers.length > 0 ? (
-                  currentUsers.map((u, index) => (
-                    <TableRow
-                      key={u._id}
-                      className="cursor-pointer hover:bg-gray-100"
-                      onClick={() => navigate("/dashboard/user-management/customers/user-details", { state: { user: u } })}
-                    >
-                      <TableCell className="py-4 px-10">{indexOfFirst + index + 1}</TableCell>
-                      <TableCell className="py-4 px-10">{u.name || "-"}</TableCell>
-                      <TableCell className="py-4 px-10">{u.email || "-"}</TableCell>
-                      <TableCell className="py-4 px-10">{u.mobile || "-"}</TableCell>
-                      <TableCell className="py-4 px-10">{u.Usertype || "-"}</TableCell>
-                      <TableCell className="py-4 px-10">{u.state || "-"}</TableCell>
-                      <TableCell className="py-4 px-10">{u.address || "-"}</TableCell>
-                      <TableCell className="py-4 px-10">{u.pincode || "-"}</TableCell>
-                    </TableRow>
-
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={8} className="text-center text-gray-500 py-6">
-                      No customers found.
-                    </TableCell>
+    <section className="flex flex-col gap-6 px-2 sm:px-4 md:px-6 lg:px-8">
+    {/* Header with Search */}
+    <HeaderNav
+      title="Users"
+      onSearch={(value) => {
+        setSearchTerm(value);
+        setCurrentPage(1);
+      }}
+    />
+  
+    {/* Export Buttons */}
+    <div className="flex flex-col sm:flex-row justify-end items-stretch sm:items-center gap-3 px-2">
+      <button
+        onClick={exportCSV}
+        className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition"
+      >
+        Export CSV
+      </button>
+      <button
+        onClick={exportPDF}
+        className="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600 transition"
+      >
+        Export PDF
+      </button>
+    </div>
+  
+    {/* Table Wrapper */}
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+      {loading ? (
+        <p className="text-center p-6 text-gray-600">Loading...</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <Table className="min-w-[800px]">
+            <TableHeader>
+              <TableRow className="text-gray-600">
+                <TableHead className="py-4 px-6 text-sm">ID</TableHead>
+                <TableHead className="py-4 px-6 text-sm">Name</TableHead>
+                <TableHead className="py-4 px-6 text-sm">Email</TableHead>
+                <TableHead className="py-4 px-6 text-sm">Mobile</TableHead>
+                <TableHead className="py-4 px-6 text-sm">User Type</TableHead>
+                <TableHead className="py-4 px-6 text-sm">State</TableHead>
+                <TableHead className="py-4 px-6 text-sm">Address</TableHead>
+                <TableHead className="py-4 px-6 text-sm">Pincode</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {currentUsers.length > 0 ? (
+                currentUsers.map((u, index) => (
+                  <TableRow
+                    key={u._id}
+                    className="cursor-pointer hover:bg-gray-100"
+                    onClick={() =>
+                      navigate("/dashboard/user-management/customers/user-details", {
+                        state: { user: u },
+                      })
+                    }
+                  >
+                    <TableCell className="py-4 px-6">{indexOfFirst + index + 1}</TableCell>
+                    <TableCell className="py-4 px-6">{u.name || "-"}</TableCell>
+                    <TableCell className="py-4 px-6">{u.email || "-"}</TableCell>
+                    <TableCell className="py-4 px-6">{u.mobile || "-"}</TableCell>
+                    <TableCell className="py-4 px-6">{u.Usertype || "-"}</TableCell>
+                    <TableCell className="py-4 px-6">{u.state || "-"}</TableCell>
+                    <TableCell className="py-4 px-6">{u.address || "-"}</TableCell>
+                    <TableCell className="py-4 px-6">{u.pincode || "-"}</TableCell>
                   </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        )}
-      </div>
-
-      <div className="flex flex-col md:flex-row justify-between items-center mt-2 px-4 gap-4">
-        <div className="text-sm text-gray-600 w-full md:w-auto order-2 md:order-1">
-          Total Customers: {users.length}
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={8} className="text-center text-gray-500 py-6">
+                    No customers found.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
         </div>
-
-        {filteredUsers.length > usersPerPage && (
-          <div className="flex gap-2 justify-center w-full md:w-auto order-1 md:order-2">
-            <button
-              onClick={handlePrev}
-              disabled={currentPage === 1}
-              className={`px-4 py-2 rounded-lg text-sm ${
-                currentPage === 1
-                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-blue-100 text-orange-500 hover:bg-blue-200"
-              }`}
-            >
-              Previous
-            </button>
-            {renderPagination()}
-            <button
-              onClick={handleNext}
-              disabled={currentPage === totalPages}
-              className={`px-4 py-2 rounded-lg text-sm ${
-                currentPage === totalPages
-                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-blue-100 text-orange-500 hover:bg-blue-200"
-              }`}
-            >
-              Next
-            </button>
-          </div>
-        )}
+      )}
+    </div>
+  
+    {/* Pagination + Total */}
+    <div className="flex flex-col md:flex-row justify-between items-center mt-2 px-2 gap-4">
+      <div className="text-sm text-gray-600 w-full md:w-auto text-center md:text-left">
+        Total Customers: {users.length}
       </div>
-    </section>
+  
+      {filteredUsers.length > usersPerPage && (
+        <div className="flex flex-wrap gap-2 justify-center w-full md:w-auto">
+          <button
+            onClick={handlePrev}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded-lg text-sm ${
+              currentPage === 1
+                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                : "bg-blue-100 text-orange-500 hover:bg-blue-200"
+            }`}
+          >
+            Previous
+          </button>
+          {renderPagination()}
+          <button
+            onClick={handleNext}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded-lg text-sm ${
+              currentPage === totalPages
+                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                : "bg-blue-100 text-orange-500 hover:bg-blue-200"
+            }`}
+          >
+            Next
+          </button>
+        </div>
+      )}
+    </div>
+  </section>
+  
   );
 }
